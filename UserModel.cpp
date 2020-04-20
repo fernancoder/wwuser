@@ -58,7 +58,7 @@ void UserModel::add_user(string user_id, string token)
   pthread_mutex_unlock(&user_model_lock);
 }
 
-void push_users()
+void UserModel::push_users()
 {
   FILE* USERS = fopen(user_file_path, "wb");
   for(vector<UserRecord *>::iterator it = v.begin(); it != v.end(); ++it) {

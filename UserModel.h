@@ -20,6 +20,7 @@ class UserModel
       pthread_mutex_t user_model_lock;
       string user_file_path;
       vector<UserRecord *> userRecords;
+      void push_users();
 };
 
 #endif /* USER_MODEL_H_ */
