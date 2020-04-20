@@ -13,7 +13,7 @@ UserModel::UserModel(string user_file_path)
   {
     // File has been successfully opened, we can try to read data
     userRecord = new UserRecord();
-    recordsRead = fread(&userRecord,sizeof(UserRecord),1,USERS);
+    size_t recordsRead = fread(&userRecord,sizeof(UserRecord),1,USERS);
     while ( recordsRead != 0 )
     {
       userRecords.push_back(userRecord);
