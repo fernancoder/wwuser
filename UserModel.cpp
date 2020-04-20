@@ -37,23 +37,23 @@ void UserModel::add_user(string user_id, string token)
 {
   pthread_mutex_lock(&user_model_lock);
 
-  for(vector<UserRecord *>::iterator it = v.begin(); it != v.end(); ++it) {
+  for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( it->user_id.compare(user_id) == 0 )
     {
       if ( it->token.compare(token) != 0 )
       {
-        it->token = token
+        it->token = token;
         push_users();
       }
       pthread_mutex_unlock(&user_model_lock);
       return;
     }
-    userRecord *UserRecord = new UserRecord();
-    strcpy(userRecord->user_id, user_id.c_str();
-    strcpy(userRecord->token, token.c_str();
-    userRecords.push_back(userRecord);
-    push_users();
   }
+  userRecord *UserRecord = new UserRecord();
+  strcpy(userRecord->user_id, user_id.c_str();
+  strcpy(userRecord->token, token.c_str();
+  userRecords.push_back(userRecord);
+  push_users();
 
   pthread_mutex_unlock(&user_model_lock);
 }
@@ -61,8 +61,8 @@ void UserModel::add_user(string user_id, string token)
 void UserModel::push_users()
 {
   FILE* USERS = fopen(user_file_path.c_str(), "wb");
-  for(vector<UserRecord *>::iterator it = v.begin(); it != v.end(); ++it) {
-     fwrite(it,sizeof(UserRecord),1,USERS);
+  for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
+     fwrite(&it,sizeof(UserRecord),1,USERS);
   }
 }
 
