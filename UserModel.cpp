@@ -5,7 +5,7 @@ UserModel::UserModel(string user_file_path)
   this->user_file_path = user_file_path;
   pthread_mutex_init(&user_model_lock,NULL);
 
-  userRecord *UserRecord = new UserRecord();
+  UserRecord *userRecord;
 
   pthread_mutex_lock(&user_model_lock);
   FILE* USERS = fopen(user_file_path, "rb");
