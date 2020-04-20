@@ -4,6 +4,12 @@
 #include "daework-include.h"
 #include "daework-kernel.h"
 
+struct UserRecord
+{
+   char user_id[64];
+   char token[64];
+};
+
 class UserModel
 {
     public:
@@ -13,7 +19,7 @@ class UserModel
     private:
       pthread_mutex_t user_model_lock;
       string user_file_path;
-
+      vector<UserRecord *> userRecords;
 };
 
 #endif /* USER_MODEL_H_ */
