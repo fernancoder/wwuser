@@ -4,11 +4,12 @@
 #include "daework-include.h"
 #include "daework-kernel.h"
 #include "daework-support.h"
+#include "userModel.h"
 
 class WwusersServer  : public Server
 {
         public:
-                UserServer *userServer
+                UserModel *userModel
                 Dispatcher *dispatcherObject;
 
         public:
