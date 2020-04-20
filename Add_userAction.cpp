@@ -20,7 +20,7 @@ void Add_userAction::execute()
 	  return;
     }
 
-    this->getServer()->userModel->add_user(this->getRequestParam("user_uuid"), this->getRequestParam("token"));
+    ((WwusersServer *)this->getServer())->userModel->add_user(this->getRequestParam("user_uuid"), this->getRequestParam("token"));
 
 
     //Change this and put your stuff here
