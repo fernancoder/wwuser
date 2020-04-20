@@ -1,13 +1,12 @@
 #include "UserModel.h"
 
-
-
-UserModel::UserModel() {
+UserModel::UserModel()
+{
   pthread_mutex_init(&user_model_lock,NULL);
-
 }
 
-UserModel::~UserModel() {
+UserModel::~UserModel()
+{
   pthread_mutex_destroy(&user_model_lock);
 }
 
