@@ -8,7 +8,7 @@
 class WwusersServer  : public Server
 {
         public:
-
+                UserServer *userServer
                 Dispatcher *dispatcherObject;
 
         public:

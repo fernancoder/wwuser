@@ -4,7 +4,7 @@
 
 void WwusersServer::init()
 {
-
+  UserModel
 }
 
 Thread *WwusersServer::createThreadObject()
