@@ -1,5 +1,6 @@
 #include "Add_userAction.h"
 #include "daework-support.h"
+#include "WwusersServer.h"
 
 Add_userAction *Add_userAction::createHandler()
 {
