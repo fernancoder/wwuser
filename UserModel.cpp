@@ -40,9 +40,9 @@ void UserModel::add_user(string user_id, string token)
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( user_id.compare((*it)->user_id) == 0 )
     {
-      if ( (*it)->token.compare(token) != 0 )
+      if ( token.compare((*it)->token) != 0 )
       {
-        (*it)->token = token;
+        strcpy((*it)->token, token.c_str());
         push_users();
       }
       pthread_mutex_unlock(&user_model_lock);
@@ -50,8 +50,8 @@ void UserModel::add_user(string user_id, string token)
     }
   }
   userRecord *UserRecord = new UserRecord();
-  strcpy(userRecord->user_id, user_id.c_str();
-  strcpy(userRecord->token, token.c_str();
+  strcpy(userRecord->user_id, user_id.c_str());
+  strcpy(userRecord->token, token.c_str());
   userRecords.push_back(userRecord);
   push_users();
 
