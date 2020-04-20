@@ -8,7 +8,7 @@ UserModel::UserModel(string user_file_path)
   UserRecord *userRecord;
 
   pthread_mutex_lock(&user_model_lock);
-  FILE* USERS = fopen(user_file_path, "rb");
+  FILE* USERS = fopen(user_file_path.c_str(), "rb");
   if ( USERS )
   {
     // File has been successfully opened, we can try to read data
@@ -16,11 +16,11 @@ UserModel::UserModel(string user_file_path)
     recordsRead = fread(&userRecord,sizeof(UserRecord),1,USERS);
     while ( recordsRead != 0 )
     {
-      userRecords.push_back(userRecord)
+      userRecords.push_back(userRecord);
       userRecord = new UserRecord();
       recordsRead = fread(&userRecord, sizeof(UserRecord),1,USERS);
     }  // end of loop
-    delete userRecord
+    delete userRecord;
     fclose(USERS);
   }
 
@@ -51,7 +51,7 @@ void UserModel::add_user(string user_id, string token)
     userRecord *UserRecord = new UserRecord();
     strcpy(userRecord->user_id, user_id.c_str();
     strcpy(userRecord->token, token.c_str();
-    userRecords.push_back(userRecord)
+    userRecords.push_back(userRecord);
     push_users();
   }
 
@@ -60,7 +60,7 @@ void UserModel::add_user(string user_id, string token)
 
 void UserModel::push_users()
 {
-  FILE* USERS = fopen(user_file_path, "wb");
+  FILE* USERS = fopen(user_file_path.c_str(), "wb");
   for(vector<UserRecord *>::iterator it = v.begin(); it != v.end(); ++it) {
      fwrite(it,sizeof(UserRecord),1,USERS);
   }
