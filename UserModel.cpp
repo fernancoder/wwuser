@@ -49,7 +49,7 @@ void UserModel::add_user(string user_id, string token)
       return;
     }
   }
-  userRecord *UserRecord = new UserRecord();
+  UserRecord *userRecord = new UserRecord();
   strcpy(userRecord->user_id, user_id.c_str());
   strcpy(userRecord->token, token.c_str());
   userRecords.push_back(userRecord);
@@ -61,7 +61,7 @@ void UserModel::add_user(string user_id, string token)
 void UserModel::push_users()
 {
   FILE* USERS = fopen(user_file_path.c_str(), "wb");
-  for(vector<UserRecord *>::iterator (*it) = userRecords.begin(); (*it) != userRecords.end(); ++(*it)) {
+  for(vector<UserRecord *>::iterator it = userRecords.begin(); *it != userRecords.end(); ++it) {
      fwrite(&it,sizeof(UserRecord),1,USERS);
   }
 }
