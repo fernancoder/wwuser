@@ -4,7 +4,7 @@
 #include "daework-include.h"
 #include "daework-kernel.h"
 #include "daework-support.h"
-#include "userModel.h"
+#include "UserModel.h"
 
 class WwusersServer  : public Server
 {
