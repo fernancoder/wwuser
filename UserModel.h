@@ -6,6 +6,8 @@
 
 class UserModel
 {
+    private:
+      pthread_mutex_t user_model_lock;
     public:
       void add_user(char* user_id, char *token);
 
