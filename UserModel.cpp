@@ -11,7 +11,7 @@ UserModel::~UserModel()
 }
 
 
-void UserModel::add_user(char* user_id, char *token)
+void UserModel::add_user(string user_id, string token)
 {
    pthread_mutex_lock(&user_model_lock);
 
