@@ -38,7 +38,7 @@ void UserModel::add_user(string user_id, string token)
   pthread_mutex_lock(&user_model_lock);
 
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
-    if ( (*it)->user_id.compare(user_id) == 0 )
+    if ( user_id.compare((*it)->user_id) == 0 )
     {
       if ( (*it)->token.compare(token) != 0 )
       {
