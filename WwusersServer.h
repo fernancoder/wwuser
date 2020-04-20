@@ -9,7 +9,7 @@
 class WwusersServer  : public Server
 {
         public:
-                UserModel *userModel
+                UserModel *userModel;
                 Dispatcher *dispatcherObject;
 
         public:
