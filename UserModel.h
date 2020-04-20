@@ -11,3 +11,5 @@ class UserModel
 
 };
 
+#endif /* USER_MODEL_H_ */
+
