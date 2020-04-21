@@ -14,11 +14,16 @@ UserModel::UserModel(string user_file_path)
     // File has been successfully opened, we can try to read data
     userRecord = new UserRecord();
     size_t recordsRead = fread(&userRecord,sizeof(UserRecord),1,USERS);
+
+    printf("PRIMERO %s %s\n", userRecord.user_id, userRecord.token);
+
     while ( recordsRead != 0 )
     {
       userRecords.push_back(userRecord);
       userRecord = new UserRecord();
       recordsRead = fread(&userRecord, sizeof(UserRecord),1,USERS);
+
+      printf("SIGUIENTES %s %s\n", userRecord.user_id, userRecord.token);
     }  // end of loop
     delete userRecord;
     fclose(USERS);
@@ -69,9 +74,9 @@ void UserModel::push_users()
 
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
 
-    printf("HOLA %s\n", (*it)->user_id);
+    printf("HOLA %s %s\n", (*it)->user_id, (*it)->token);
 
-     fwrite(*it,sizeof(UserRecord),1,USERS);
+    fwrite(*it,sizeof(UserRecord),1,USERS);
   }
 }
 
