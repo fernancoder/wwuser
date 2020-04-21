@@ -29,7 +29,7 @@ UserModel::UserModel(string user_file_path)
     fclose(USERS);
   }
 
-  printf("-------------------------------------------------")
+  printf("-------------------------------------------------");
 
   pthread_mutex_unlock(&user_model_lock);
 }
