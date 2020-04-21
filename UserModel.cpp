@@ -15,7 +15,7 @@ UserModel::UserModel(string user_file_path)
     userRecord = new UserRecord();
     size_t recordsRead = fread(userRecord,sizeof(UserRecord),1,USERS);
 
-    printf("LEO PRIMERO %s %s\n", userRecord->user_id, userRecord->token);
+    //printf("LEO PRIMERO %s %s\n", userRecord->user_id, userRecord->token);
 
     while ( recordsRead != 0 )
     {
@@ -23,14 +23,11 @@ UserModel::UserModel(string user_file_path)
       userRecord = new UserRecord();
       recordsRead = fread(userRecord, sizeof(UserRecord),1,USERS);
 
-      printf("LEO SIGUIENTES %s %s\n", userRecord->user_id, userRecord->token);
+      //printf("LEO SIGUIENTES %s %s\n", userRecord->user_id, userRecord->token);
     }  // end of loop
     delete userRecord;
     fclose(USERS);
   }
-
-  printf("-------------------------------------------------");
-
   pthread_mutex_unlock(&user_model_lock);
 }
 
@@ -69,13 +66,11 @@ void UserModel::push_users()
   FILE* USERS = fopen(user_file_path.c_str(), "wb");
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
 
-    printf("GRABO %s %s\n", (*it)->user_id, (*it)->token);
+    //printf("GRABO %s %s\n", (*it)->user_id, (*it)->token);
 
     fwrite(*it,sizeof(UserRecord),1,USERS);
   }
   fclose(USERS);
-
-  printf("-------------------------------------------------");
 }
 
 
