@@ -13,9 +13,9 @@ UserModel::UserModel(string user_file_path)
   {
     // File has been successfully opened, we can try to read data
     userRecord = new UserRecord();
-    size_t recordsRead = fread(&userRecord,sizeof(UserRecord),1,USERS);
+    size_t recordsRead = fread(userRecord,sizeof(UserRecord),1,USERS);
 
-    printf("PRIMERO %s %s\n", userRecord.user_id, userRecord.token);
+    printf("PRIMERO %s %s\n", userRecord->user_id, userRecord->token);
 
     while ( recordsRead != 0 )
     {
@@ -23,7 +23,7 @@ UserModel::UserModel(string user_file_path)
       userRecord = new UserRecord();
       recordsRead = fread(&userRecord, sizeof(UserRecord),1,USERS);
 
-      printf("SIGUIENTES %s %s\n", userRecord.user_id, userRecord.token);
+      printf("SIGUIENTES %s %s\n", userRecord->user_id, userRecord->token);
     }  // end of loop
     delete userRecord;
     fclose(USERS);
