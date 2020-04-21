@@ -21,7 +21,7 @@ UserModel::UserModel(string user_file_path)
     {
       userRecords.push_back(userRecord);
       userRecord = new UserRecord();
-      recordsRead = fread(&userRecord, sizeof(UserRecord),1,USERS);
+      recordsRead = fread(userRecord, sizeof(UserRecord),1,USERS);
 
       printf("SIGUIENTES %s %s\n", userRecord->user_id, userRecord->token);
     }  // end of loop
