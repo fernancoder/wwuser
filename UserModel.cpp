@@ -62,6 +62,9 @@ void UserModel::push_users()
 {
   FILE* USERS = fopen(user_file_path.c_str(), "wb");
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
+
+    printf("HOLA\n");
+
      fwrite(&it,sizeof(UserRecord),1,USERS);
   }
 }
