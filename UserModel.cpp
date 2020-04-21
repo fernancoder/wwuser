@@ -74,7 +74,7 @@ void UserModel::push_users()
     fwrite(*it,sizeof(UserRecord),1,USERS);
   }
 
-  printf("-------------------------------------------------")
+  printf("-------------------------------------------------");
 }
 
 
