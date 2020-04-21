@@ -29,6 +29,8 @@ UserModel::UserModel(string user_file_path)
     fclose(USERS);
   }
 
+  printf("-------------------------------------------------")
+
   pthread_mutex_unlock(&user_model_lock);
 }
 
@@ -71,6 +73,8 @@ void UserModel::push_users()
 
     fwrite(*it,sizeof(UserRecord),1,USERS);
   }
+
+  printf("-------------------------------------------------")
 }
 
 
