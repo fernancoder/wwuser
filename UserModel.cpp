@@ -69,9 +69,9 @@ void UserModel::push_users()
 
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
 
-    printf("HOLA\n");
+    printf("HOLA %s\n", &it.user_id);
 
-     fwrite(it,sizeof(UserRecord),1,USERS);
+     fwrite(&it,sizeof(UserRecord),1,USERS);
   }
 }
 
