@@ -37,6 +37,9 @@ void UserModel::add_user(string user_id, string token)
 {
   pthread_mutex_lock(&user_model_lock);
 
+
+  printf("ANYADO\n");
+
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( user_id.compare((*it)->user_id) == 0 )
     {
@@ -61,6 +64,9 @@ void UserModel::add_user(string user_id, string token)
 void UserModel::push_users()
 {
   FILE* USERS = fopen(user_file_path.c_str(), "wb");
+
+    printf("ENTRO\n");
+
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
 
     printf("HOLA\n");
