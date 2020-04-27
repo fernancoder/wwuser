@@ -6,8 +6,8 @@
 
 struct UserRecord
 {
-   char user_id[64];
-   char token[64];
+   char user_id[256];
+   char token[256];
 };
 
 class UserModel
