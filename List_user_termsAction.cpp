@@ -20,7 +20,7 @@ void List_user_termsAction::execute()
     {
       vector<UserTermRecord *> currentUserTermRecords = ((WwusersServer *)this->getServer())->userModel->list_user_terms(this->getRequestParam("user_uuid"));
       //string response = "\"totalResults\":" + currentUserTermRecords.count() + ", [";
-      string response = string("\"totalResults\":") + string("2") + string(", \"records:\" [");
+      string response = string("\"totalResults\":") + string("2") + string(", \"records\": [");
       for( vector<UserTermRecord *>::iterator it = currentUserTermRecords.begin(); it != currentUserTermRecords.end(); ++it ) {
 
 printf("%s\n",(*it)->entry_key);
