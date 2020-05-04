@@ -125,6 +125,10 @@ vector<UserTermRecord *> UserModel::list_user_terms(string user_id)
   vector<UserTermRecord *> currentUserTermRecords;
 
   pthread_mutex_lock(&user_model_lock);
+
+printf("-------_> EMPIEZO");
+
+
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
 
 printf("-------_> %s", (*it)->user_id);
