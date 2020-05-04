@@ -16,25 +16,26 @@ void List_user_termsAction::execute()
 	   return;
     }
 
-
-printf("Empiezo\n");
-
     if ( ((WwusersServer *)this->getServer())->userModel->user_exists(this->getRequestParam("user_uuid")) )
     {
-
-printf("Hay cosas\n");
-
-      string response = "";
       vector<UserTermRecord *> currentUserTermRecords = ((WwusersServer *)this->getServer())->userModel->list_user_terms(this->getRequestParam("user_uuid"));
+      //string response = "\"totalResults\":" + currentUserTermRecords.count() + ", [";
+      string response = string("\"totalResults\":") + string("2") + string(", [");
       for( vector<UserTermRecord *>::iterator it = currentUserTermRecords.begin(); it != currentUserTermRecords.end(); ++it ) {
 
 printf("%s\n",(*it)->entry_key);
 
 
-        response += string("key: ") + (*it)->entry_key;
+        response += ( string("{ \"key\": \"") + string((*it)->entry_key) + string(", \"title\": \"") + string((*it)->entry_title) + string("\"},") );
 
         delete *it;
       }
+
+      response += string("]");
+
+
+printf("%s\n", response);
+
       this->sendSuccess(response);
     }
     else
