@@ -3,11 +3,11 @@
 UserModel::UserModel(string user_file_path, string user_term_file_path)
 {
   this->user_file_path = user_file_path;
+  this->user_term_file_path = user_term_file_path;
   pthread_mutex_init(&user_model_lock,NULL);
+  pthread_mutex_lock(&user_model_lock);
 
   UserRecord *userRecord;
-
-  pthread_mutex_lock(&user_model_lock);
   FILE* USERS = fopen(user_file_path.c_str(), "rb");
   if ( USERS )
   {
@@ -29,8 +29,9 @@ UserModel::UserModel(string user_file_path, string user_term_file_path)
     fclose(USERS);
   }
 
+  UserTermRecord *userTermRecord;
   FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "rb");
-  if ( UserTermRecord )
+  if ( USER_TERMS )
   {
     // File has been successfully opened, we can try to read data
     userTermRecord = new UserTermRecord();
@@ -96,13 +97,13 @@ void UserModel::push_users()
 }
 
 
-void UserModel::add_user_term(string user_id, string entry_key, string entry_title);
+void UserModel::add_user_term(string user_id, string entry_key, string entry_title)
 {
   pthread_mutex_lock(&user_model_lock);
-  for(vector<userTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+  for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
     if ( user_id.compare((*it)->user_id) != 0 )
     {
-      if ( token.compare((*it)->entry_key) != 0 )
+      if ( entry_key.compare((*it)->entry_key) != 0 )
       {
         pthread_mutex_unlock(&user_model_lock);
         return;
@@ -122,11 +123,11 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
 void UserModel::push_user_terms()
 {
   FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "wb");
-  for(vector<userTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+  for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
 
     //printf("GRABO %s %s\n", (*it)->user_id, (*it)->token);
 
-    fwrite(*it,sizeof(userTermRecord),1,USER_TERMS);
+    fwrite(*it,sizeof(UserTermRecord),1,USER_TERMS);
   }
   fclose(USER_TERMS);
 }
