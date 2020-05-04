@@ -20,7 +20,7 @@ void Add_user_termAction::execute()
 	   this->closeConnection();
 	   return;
     }
-    if ( !verifyParam(this->getRequestParam("entry_key"),1000,"Parameter entry_key is mandatory") )
+    if ( !verifyParam(this->getRequestParam("entry_title"),1000,"Parameter entry_title is mandatory") )
     {
         this->closeConnection();
         return;
