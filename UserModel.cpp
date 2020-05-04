@@ -135,7 +135,7 @@ printf("-------> %s %s\n", user_id, (*it)->user_id);
 
 
     if ( user_id.compare((*it)->user_id) != 0 ) {
-      printf("-----------> Mismo usuario")
+      printf("-----------> Mismo usuario");
       UserTermRecord *userTermRecord = new UserTermRecord();
       strcpy(userTermRecord->user_id, (*it)->user_id);
       strcpy(userTermRecord->entry_key, (*it)->entry_key);
