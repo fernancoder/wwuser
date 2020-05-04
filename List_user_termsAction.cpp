@@ -21,14 +21,14 @@ void List_user_termsAction::execute()
       vector<UserTermRecord *> currentUserTermRecords = ((WwusersServer *)this->getServer())->userModel->list_user_terms(this->getRequestParam("user_uuid"));
       //string response = "\"totalResults\":" + currentUserTermRecords.count() + ", [";
       string response = string("\"totalResults\":") + string("2") + string(", \"records\": [");
-      bool is_first = true
+      bool is_first = true;
       for( vector<UserTermRecord *>::iterator it = currentUserTermRecords.begin(); it != currentUserTermRecords.end(); ++it ) {
         if ( !is_first )
-          response += string(",") );
+          response += string(",");
 
         response += ( string("{ \"key\": \"") + string((*it)->entry_key) + string("\", \"title\": \"") + string((*it)->entry_title) + string("\"}") );
 
-        is_first = false
+        is_first = false;
         delete *it;
       }
 
