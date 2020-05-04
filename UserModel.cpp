@@ -126,13 +126,16 @@ vector<UserTermRecord *> UserModel::list_user_terms(string user_id)
 
   pthread_mutex_lock(&user_model_lock);
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+
+printf("-------_> %s", (*it)->user_id);
+
+
     if ( user_id.compare((*it)->user_id) != 0 ) {
       UserTermRecord *userTermRecord = new UserTermRecord();
       strcpy(userTermRecord->user_id, (*it)->user_id);
       strcpy(userTermRecord->entry_key, (*it)->entry_key);
       strcpy(userTermRecord->entry_title, (*it)->entry_title);
       currentUserTermRecords.push_back(userTermRecord);
-      push_user_terms();
     }
   }
   pthread_mutex_unlock(&user_model_lock);
