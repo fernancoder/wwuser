@@ -23,11 +23,8 @@ void Add_userAction::execute()
 
     ((WwusersServer *)this->getServer())->userModel->add_user(this->getRequestParam("user_uuid"), this->getRequestParam("token"));
 
-
-    //Change this and put your stuff here
     string response = "";
     this->sendSuccess(response);
-    //end
 
     this->closeConnection();
 }

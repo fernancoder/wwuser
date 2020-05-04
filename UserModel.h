@@ -25,6 +25,7 @@ class UserModel
       void add_user(string user_id, string token);
       void add_user_term(string user_id, string entry_key, string entry_title);
       bool user_exists(string user_id);
+      bool user_term_exists(string user_id, string entry_key);
     private:
       pthread_mutex_t user_model_lock;
       string user_file_path;

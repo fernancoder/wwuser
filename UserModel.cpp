@@ -146,3 +146,21 @@ bool UserModel::user_exists(string user_id)
   pthread_mutex_unlock(&user_model_lock);
   return false;
 }
+
+bool UserModel::user_term_exists(string user_id, string entry_key)
+{
+  pthread_mutex_lock(&user_model_lock);
+  for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+    if ( user_id.compare((*it)->user_id) == 0 )
+    {
+      if (  entry_key.compare((*it)->entry_key) == 0 )
+      {
+        pthread_mutex_unlock(&user_model_lock);
+        return true;
+      }
+    }
+  }
+
+  pthread_mutex_unlock(&user_model_lock);
+  return false;
+}
