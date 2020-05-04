@@ -120,12 +120,32 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
   pthread_mutex_unlock(&user_model_lock);
 }
 
+vector<UserTermRecord *> UserModel::list_user_terms(string user_id)
+{
+  vector<UserTermRecord *> currentUserTermRecords;
+
+  pthread_mutex_lock(&user_model_lock);
+  for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+    if ( user_id.compare((*it)->user_id) != 0 ) {
+      UserTermRecord *userTermRecord = new UserTermRecord();
+      strcpy(userTermRecord->user_id, (*it)->user_id);
+      strcpy(userTermRecord->entry_key, (*it)->entry_key);
+      strcpy(userTermRecord->entry_title, (*it)->entry_title);
+      currentUserTermRecords.push_back(userTermRecord);
+      push_user_terms();
+    }
+  }
+  pthread_mutex_unlock(&user_model_lock);
+
+  return currentUserTermRecords;
+}
+
 void UserModel::push_user_terms()
 {
   FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "wb");
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
 
-    printf("GRABO %s %s\n", (*it)->user_id, (*it)->entry_key, (*it)->entry_title);
+    //printf("GRABO %s %s\n", (*it)->user_id, (*it)->entry_key, (*it)->entry_title);
 
     fwrite(*it,sizeof(UserTermRecord),1,USER_TERMS);
   }
