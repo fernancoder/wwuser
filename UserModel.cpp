@@ -132,3 +132,17 @@ void UserModel::push_user_terms()
   fclose(USER_TERMS);
 }
 
+bool UserModel::user_exists(string user_id)
+{
+  pthread_mutex_lock(&user_model_lock);
+  for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
+    if ( user_id.compare((*it)->user_id) == 0 )
+    {
+      pthread_mutex_unlock(&user_model_lock);
+      return true;
+    }
+  }
+
+  pthread_mutex_unlock(&user_model_lock);
+  return false;
+}

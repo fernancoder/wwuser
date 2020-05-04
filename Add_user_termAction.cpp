@@ -1,5 +1,6 @@
 #include "Add_user_termAction.h"
 #include "daework-support.h"
+#include "WwusersServer.h"
 
 Add_user_termAction *Add_user_termAction::createHandler()
 {
@@ -20,11 +21,15 @@ void Add_user_termAction::execute()
 	return;
     }
 
-
-    //Change this and put your stuff here
-    string response = "\"stuff\" : \"OK\"";
-    this->sendSuccess(response);
-    //end
+    if ( ((WwusersServer *)this->getServer())->userModel->user_exists(this->getRequestParam("user_uuid")) )
+    {
+        //Change this and put your stuff here
+        string response = "\"stuff\" : \"OK\"";
+        this->sendSuccess(response);
+        //end
+    }
+    else
+        this->sendError(20001,"User not found");
 
     this->closeConnection();
 }

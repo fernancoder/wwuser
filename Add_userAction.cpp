@@ -25,7 +25,7 @@ void Add_userAction::execute()
 
 
     //Change this and put your stuff here
-    string response = "\"stuff\" : \"OK\"";
+    string response = "";
     this->sendSuccess(response);
     //end
 
