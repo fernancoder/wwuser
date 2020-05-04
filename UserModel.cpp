@@ -126,15 +126,16 @@ vector<UserTermRecord *> UserModel::list_user_terms(string user_id)
 
   pthread_mutex_lock(&user_model_lock);
 
-printf("-------_> EMPIEZO");
+printf("-------_> EMPIEZO\n");
 
 
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
 
-printf("-------_> %s", (*it)->user_id);
+printf("-------> %s %s\n", user_id, (*it)->user_id);
 
 
     if ( user_id.compare((*it)->user_id) != 0 ) {
+      printf("-----------> Mismo usuario")
       UserTermRecord *userTermRecord = new UserTermRecord();
       strcpy(userTermRecord->user_id, (*it)->user_id);
       strcpy(userTermRecord->entry_key, (*it)->entry_key);
