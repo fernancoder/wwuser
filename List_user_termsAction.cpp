@@ -17,11 +17,20 @@ void List_user_termsAction::execute()
     }
 
 
+printf("Empiezo\n");
+
     if ( ((WwusersServer *)this->getServer())->userModel->user_exists(this->getRequestParam("user_uuid")) )
     {
+
+printf("Hay cosas\n");
+
       string response = "";
       vector<UserTermRecord *> currentUserTermRecords = ((WwusersServer *)this->getServer())->userModel->list_user_terms(this->getRequestParam("user_uuid"));
       for( vector<UserTermRecord *>::iterator it = currentUserTermRecords.begin(); it != currentUserTermRecords.end(); ++it ) {
+
+printf("%s\n",(*it)->entry_key);
+
+
         response += string("key: ") + (*it)->entry_key;
 
         delete *it;
