@@ -115,7 +115,7 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
   strcpy(userTermRecord->entry_key, entry_key.c_str());
   strcpy(userTermRecord->entry_title, entry_title.c_str());
   userTermRecords.push_back(userTermRecord);
-  push_users();
+  push_user_terms();
 
   pthread_mutex_unlock(&user_model_lock);
 }
