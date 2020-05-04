@@ -9,7 +9,7 @@ Add_user_termAction *Add_user_termAction::createHandler()
 void Add_user_termAction::execute()
 {
 
-    if ( !verifyParam(this->getRequestParam("user_uid"),1000,"Parameter user_uid is mandatory") )
+    if ( !verifyParam(this->getRequestParam("user_uuid"),1000,"Parameter user_uuid is mandatory") )
     {
 	this->closeConnection();
 	return;
