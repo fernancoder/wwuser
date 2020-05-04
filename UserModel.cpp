@@ -1,6 +1,6 @@
 #include "UserModel.h"
 
-UserModel::UserModel(string user_file_path)
+UserModel::UserModel(string user_file_path, string user_term_file_path)
 {
   this->user_file_path = user_file_path;
   pthread_mutex_init(&user_model_lock,NULL);
@@ -28,6 +28,28 @@ UserModel::UserModel(string user_file_path)
     delete userRecord;
     fclose(USERS);
   }
+
+  FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "rb");
+  if ( UserTermRecord )
+  {
+    // File has been successfully opened, we can try to read data
+    userTermRecord = new UserTermRecord();
+    size_t recordsRead = fread(userTermRecord,sizeof(UserTermRecord),1,USER_TERMS);
+
+    //printf("LEO PRIMERO %s %s\n", userTermRecord->user_id, userTermRecord->token);
+
+    while ( recordsRead != 0 )
+    {
+      userTermRecords.push_back(userTermRecord);
+      userTermRecord = new UserTermRecord();
+      recordsRead = fread(userTermRecord, sizeof(UserTermRecord),1,USER_TERMS);
+
+      //printf("LEO SIGUIENTES %s %s\n", userTermRecord->user_id, userTermRecord->token);
+    }  // end of loop
+    delete userTermRecord;
+    fclose(USER_TERMS);
+  }
+
   pthread_mutex_unlock(&user_model_lock);
 }
 
@@ -74,4 +96,38 @@ void UserModel::push_users()
 }
 
 
+void UserModel::add_user_term(string user_id, string entry_key, string entry_title);
+{
+  pthread_mutex_lock(&user_model_lock);
+  for(vector<userTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+    if ( user_id.compare((*it)->user_id) != 0 )
+    {
+      if ( token.compare((*it)->entry_key) != 0 )
+      {
+        pthread_mutex_unlock(&user_model_lock);
+        return;
+      }
+    }
+  }
+  UserTermRecord *userTermRecord = new UserTermRecord();
+  strcpy(userTermRecord->user_id, user_id.c_str());
+  strcpy(userTermRecord->entry_key, entry_key.c_str());
+  strcpy(userTermRecord->entry_title, entry_title.c_str());
+  userTermRecords.push_back(userTermRecord);
+  push_users();
+
+  pthread_mutex_unlock(&user_model_lock);
+}
+
+void UserModel::push_user_terms()
+{
+  FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "wb");
+  for(vector<userTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+
+    //printf("GRABO %s %s\n", (*it)->user_id, (*it)->token);
+
+    fwrite(*it,sizeof(userTermRecord),1,USER_TERMS);
+  }
+  fclose(USER_TERMS);
+}
 

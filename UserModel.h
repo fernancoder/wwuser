@@ -10,16 +10,25 @@ struct UserRecord
    char token[256];
 };
 
+struct UserTermRecord
+{
+   char user_id[256];
+   char entry_key[256];
+   char entry_title[256];
+};
+
 class UserModel
 {
     public:
       UserModel(string user_file_path);
       ~UserModel();
       void add_user(string user_id, string token);
+      void add_user_term(string user_id, string entry_key, string entry_title);
     private:
       pthread_mutex_t user_model_lock;
       string user_file_path;
       vector<UserRecord *> userRecords;
+      vector<UserTermRecord *> userTermRecords;
       void push_users();
 };
 
