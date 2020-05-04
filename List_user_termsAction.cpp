@@ -34,7 +34,7 @@ printf("%s\n",(*it)->entry_key);
       response += string("]");
 
 
-printf("%s\n", response);
+printf("%s\n", response.c_str());
 
       this->sendSuccess(response);
     }
