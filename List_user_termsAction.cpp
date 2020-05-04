@@ -26,7 +26,7 @@ void List_user_termsAction::execute()
 printf("%s\n",(*it)->entry_key);
 
 
-        response += ( string("{ \"key\": \"") + string((*it)->entry_key) + string(", \"title\": \"") + string((*it)->entry_title) + string("\"},") );
+        response += ( string("{ \"key\": \"") + string((*it)->entry_key) + string("\", \"title\": \"") + string((*it)->entry_title) + string("\"},") );
 
         delete *it;
       }
