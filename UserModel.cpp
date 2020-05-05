@@ -100,6 +100,12 @@ void UserModel::push_users()
 void UserModel::add_user_term(string user_id, string entry_key, string entry_title)
 {
   pthread_mutex_lock(&user_model_lock);
+
+
+  printf("Entro con %d\n", (int)userTermRecords.size());
+
+
+
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
 
 
