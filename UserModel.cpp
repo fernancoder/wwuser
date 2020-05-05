@@ -111,9 +111,9 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
 
     printf("%s -> %s | %s -> %s", user_id.c_str(), (*it)->user_id, entry_key.c_str(), (*it)->entry_key );
 
-    if ( user_id.compare((*it)->user_id) != 0 )
+    if ( user_id.compare((*it)->user_id) == 0 )
     {
-      if ( entry_key.compare((*it)->entry_key) != 0 )
+      if ( entry_key.compare((*it)->entry_key) == 0 )
       {
         pthread_mutex_unlock(&user_model_lock);
         return;
