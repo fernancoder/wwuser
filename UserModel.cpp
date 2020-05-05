@@ -101,6 +101,10 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
 {
   pthread_mutex_lock(&user_model_lock);
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+
+
+    printf("%s -> %s | %s -> %s", user_id.c_str(), (*it)->user_id, entry_key.c_str(), (*it)->entry_key );
+
     if ( user_id.compare((*it)->user_id) != 0 )
     {
       if ( entry_key.compare((*it)->entry_key) != 0 )
@@ -144,7 +148,7 @@ void UserModel::push_user_terms()
   FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "wb");
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
 
-    printf("GRABO %s %s\n", (*it)->user_id, (*it)->entry_key, (*it)->entry_title);
+    printf("GRABO %s %s\n", (*it)->user_id, (*it)->entry_key);
 
     fwrite(*it,sizeof(UserTermRecord),1,USER_TERMS);
   }
