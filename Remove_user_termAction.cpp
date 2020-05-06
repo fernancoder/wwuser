@@ -1,5 +1,6 @@
 #include "Remove_user_termAction.h"
 #include "daework-support.h"
+#include "WwusersServer.h"
 
 Remove_user_termAction *Remove_user_termAction::createHandler()
 {
@@ -20,11 +21,22 @@ void Remove_user_termAction::execute()
 	return;
     }
 
-
-    //Change this and put your stuff here
-    string response = "\"stuff\" : \"OK\"";
-    this->sendSuccess(response);
-    //end
+    if ( ((WwusersServer *)this->getServer())->userModel->user_exists(this->getRequestParam("user_uuid")) )
+    {
+        if ( !((WwusersServer *)this->getServer())->userModel->user_term_exists(this->getRequestParam("user_uuid"), this->getRequestParam("entry_key")) )
+            this->sendError(20002,"User is not suscribed to this entry");
+        else
+        {
+            ((WwusersServer *)this->getServer())->userModel->remove_user_term(
+                this->getRequestParam("user_uuid"),
+                this->getRequestParam("entry_key")
+            );
+            string response = "";
+            this->sendSuccess(response);
+        }
+    }
+    else
+        this->sendError(20001,"User not found");
 
     this->closeConnection();
 }

@@ -141,6 +141,27 @@ vector<UserTermRecord *> UserModel::list_user_terms(string user_id)
   return currentUserTermRecords;
 }
 
+void UserModel::remove_user_term(string user_id, string entry_key)
+{
+  pthread_mutex_lock(&user_model_lock);
+  for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+
+//    printf("%s -> %s | %s -> %s", user_id.c_str(), (*it)->user_id, entry_key.c_str(), (*it)->entry_key );
+    if ( user_id.compare((*it)->user_id) == 0 )
+    {
+      if ( entry_key.compare((*it)->entry_key) == 0 )
+      {
+        delete *it;
+        userTermRecords.erase(it);
+        push_user_terms();
+        pthread_mutex_unlock(&user_model_lock);
+        return;
+      }
+    }
+  }
+  pthread_mutex_unlock(&user_model_lock);
+}
+
 void UserModel::push_user_terms()
 {
   FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "wb");
