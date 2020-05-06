@@ -10,12 +10,12 @@ Remove_user_termAction *Remove_user_termAction::createHandler()
 void Remove_user_termAction::execute()
 {
 
-    if ( !verifyParam(this->getRequestParam("user_uid"),1000,"Parameter user_uid is mandatory") )
+    if ( !verifyParam(this->getRequestParam("user_uuid"),1000,"Parameter user_uuid is mandatory") )
     {
 	this->closeConnection();
 	return;
     }
-    if ( !verifyParam(this->getRequestParam("term"),1000,"Parameter term is mandatory") )
+    if ( !verifyParam(this->getRequestParam("entry_key"),1000,"Parameter entry_key is mandatory") )
     {
 	this->closeConnection();
 	return;
