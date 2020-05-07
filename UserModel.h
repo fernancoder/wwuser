@@ -3,6 +3,7 @@
 
 #include "daework-include.h"
 #include "daework-kernel.h"
+#include <ctime>
 
 struct UserRecord
 {
@@ -15,6 +16,7 @@ struct UserTermRecord
    char user_id[256];
    char entry_key[256];
    char entry_title[256];
+   char last_update[20];
 };
 
 class UserModel

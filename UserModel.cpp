@@ -116,6 +116,16 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
   strcpy(userTermRecord->user_id, user_id.c_str());
   strcpy(userTermRecord->entry_key, entry_key.c_str());
   strcpy(userTermRecord->entry_title, entry_title.c_str());
+
+  time_t rawtime;
+  struct tm * timeinfo;
+  char buffer[80];
+  time (&rawtime);
+  timeinfo = localtime(&rawtime);
+  strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S",timeinfo);
+  std::string str(buffer);
+  strcpy(userTermRecord->last_update, str.c_str());
+
   userTermRecords.push_back(userTermRecord);
   push_user_terms();
 
