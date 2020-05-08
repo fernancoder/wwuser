@@ -179,7 +179,7 @@ string UserModel::notify_changes()
   pthread_mutex_lock(&user_model_lock);
   HttpsGet *httpsGet = new HttpsGet();
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
-    string url = "GET https://es.wikipedia.org/w/index.php?title=" + string((*it)->entry_key) + "&action=history";
+    string url = "GET https://es.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + string((*it)->entry_key) + "&rvlimit=5&rvslots=main&rvprop=timestamp%7Cuser%7Ccomment&rvdir=newer&rvstart=2018-07-01T00:00:00Z";
     httpsGet->get((char *)(url.c_str()));
   }
   delete httpsGet;
@@ -187,7 +187,6 @@ string UserModel::notify_changes()
 
   return response;
 }
-
 
 void UserModel::push_user_terms()
 {
