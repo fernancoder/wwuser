@@ -3,19 +3,9 @@
 // Compiling   : g++ -c -o SSLClient.o SSLClient.cpp
 //               g++ -o SSLClient SSLClient.o -lssl -lcrypto
 //============================================================================
-#include <stdio.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <openssl/ssl.h>
-#include <openssl/err.h>
+#include "HttpsGet.h"
 
-using namespace std;
-
-SSL *ssl;
-int sock;
-
-int RecvPacket()
+int HttpsGet::RecvPacket()
 {
     int len=100;
     char buf[1000000];
@@ -35,7 +25,7 @@ int RecvPacket()
     }
 }
 
-int SendPacket(const char *buf)
+int HttpsGet::SendPacket(const char *buf)
 {
     int len = SSL_write(ssl, buf, strlen(buf));
     if (len < 0) {
@@ -54,7 +44,7 @@ int SendPacket(const char *buf)
     }
 }
 
-void log_ssl()
+void HttpsGet::log_ssl()
 {
     int err;
     while (err = ERR_get_error()) {
@@ -67,7 +57,7 @@ void log_ssl()
     }
 }
 
-/*int main(int argc, char *argv[])
+int HttpsGet::get(int argc, char *argv[])
 {
     int s;
     s = socket(AF_INET, SOCK_STREAM, 0);
@@ -107,8 +97,8 @@ void log_ssl()
     }
     printf ("SSL connection using %s\n", SSL_get_cipher (ssl));
 
-    char *request = "GET https://www.google.ru/intl/en/about/company/facts/ HTTP/1.1\r\n\r\n";
+    char *request/* = "GET https://www.google.ru/intl/en/about/company/facts/ HTTP/1.1\r\n\r\n"*/;
     SendPacket(request);
     RecvPacket();
     return 0;
-}*/
+}
