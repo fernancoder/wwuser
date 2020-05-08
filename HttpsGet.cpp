@@ -78,7 +78,7 @@ int HttpsGet::get(char *url)
     memset (&sa, 0, sizeof(sa));
     sa.sin_family      = AF_INET;
     sa.sin_addr.s_addr = inet_addr("91.198.174.192"); //wikipedia.org
-    sa.sin_port = htons(433);
+    sa.sin_port = htons(443);
     socklen_t socklen = sizeof(sa);
     if (connect(s, (struct sockaddr *)&sa, socklen)) {
         printf("Error connecting to server %d\n",errno);
