@@ -59,6 +59,9 @@ void HttpsGet::log_ssl()
 
 int HttpsGet::get(char *url)
 {
+
+    printf("%s\n",url);
+
     int s;
     s = socket(AF_INET, SOCK_STREAM, 0);
     if (s < 0) {
@@ -68,7 +71,7 @@ int HttpsGet::get(char *url)
     struct sockaddr_in sa;
     memset (&sa, 0, sizeof(sa));
     sa.sin_family      = AF_INET;
-    sa.sin_addr.s_addr = inet_addr("91.198.174.194"); // address of google.ru
+    sa.sin_addr.s_addr = inet_addr("91.198.174.192"); // address of google.ru
     sa.sin_port        = htons (443);
     socklen_t socklen = sizeof(sa);
     if (connect(s, (struct sockaddr *)&sa, socklen)) {
