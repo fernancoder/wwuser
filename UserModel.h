@@ -29,6 +29,7 @@ class UserModel
       void remove_user_term(string user_id, string entry_key);
       bool user_exists(string user_id);
       bool user_term_exists(string user_id, string entry_key);
+      string notify_changes();
       vector<UserTermRecord *> list_user_terms(string user_id);
     private:
       pthread_mutex_t user_model_lock;

@@ -58,17 +58,17 @@
 
 # The pre-processor and compiler options.
 # MY_CFLAGS = -ggdb3 -pipe -O2 -Wall -Wextra -fopenmp -march=native -mfpmath=sse -DLINUX -m64 -std=c++0x
-MY_CFLAGS = -g -DLINUX 
+MY_CFLAGS = -g -DLINUX
 
 # The linker options.
 # MY_LIBS   = -lGLEW -lglut -lGLU -lGL -lX11 -lXmu -lXi -lm -L/usr/X11R6/lib -lgomp -lOpenThreads -lpthread
-MY_LIBS   = -lpthread -ldaework 
+MY_LIBS   = -lpthread -ldaework -lssl -lcrypto
 
 # The pre-processor options used by the cpp (man cpp for more).
-CPPFLAGS  = 
+CPPFLAGS  =
 
 # The options used in linking as well as in any direct use of ld.
-LDFLAGS   = 
+LDFLAGS   =
 
 # The directories in which source files reside.
 # If not specified, only the current directory will be serached.
@@ -90,9 +90,9 @@ HDREXTS = .h .H .hh .hpp .HPP .h++ .hxx .hp
 
 # The pre-processor and compiler options.
 # Users can override those variables from the command line.
-CFLAGS  = 
+CFLAGS  =
 # CXXFLAGS= -std=c++0x
-CXXFLAGS= 
+CXXFLAGS=
 # The C program compiler.
 CC     = gcc
 

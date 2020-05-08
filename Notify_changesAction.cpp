@@ -9,8 +9,8 @@ Notify_changesAction *Notify_changesAction::createHandler()
 
 void Notify_changesAction::execute()
 {
-    this->sendSuccess("KAKILLA");
-    //this->sendError(20001,"User not found");
+    string response = ((WwusersServer *)this->getServer())->userModel->notify_changes();
+    this->sendSuccess(response);
 
     this->closeConnection();
 }

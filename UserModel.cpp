@@ -172,6 +172,26 @@ void UserModel::remove_user_term(string user_id, string entry_key)
   pthread_mutex_unlock(&user_model_lock);
 }
 
+string UserModel::notify_changes()
+{
+  string response;
+  pthread_mutex_lock(&user_model_lock);
+  for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
+
+
+
+
+
+    //"https://es.wikipedia.org/w/index.php?title=" + (*it)->entry_key + "&action=history"
+
+
+  }
+  pthread_mutex_unlock(&user_model_lock);
+
+  return response;
+}
+
+
 void UserModel::push_user_terms()
 {
   FILE* USER_TERMS = fopen(user_term_file_path.c_str(), "wb");
