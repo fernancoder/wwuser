@@ -21,7 +21,7 @@ class HttpsGet
 
   private:
    int RecvPacket();
-   int SendPacket(const char *buf);
+   int SendPacket(char *buf);
    void log_ssl();
 };
 
