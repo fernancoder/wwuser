@@ -80,7 +80,7 @@ int HttpsGet::get(char *url)
     sa.sin_addr.s_addr = inet_addr("91.198.174.192"); //wikipedia.org
     socklen_t socklen = sizeof(sa);
     if (connect(s, (struct sockaddr *)&sa, socklen)) {
-        printf("Error connecting to server.\n");
+        printf("Error connecting to server %d\n",errno);
         return -1;
     }
     SSL_library_init();
