@@ -13,7 +13,7 @@ int HttpsGet::RecvPacket()
     do {
         len=SSL_read(ssl, buf, 100);
         buf[len]=0;
-        printf("%s", buf);
+        printf("%d -----> %s\n", len, buf);
     } while (len > 0);
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
