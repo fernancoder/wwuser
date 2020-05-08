@@ -29,6 +29,7 @@ int HttpsGet::RecvPacket()
 
 int HttpsGet::SendPacket(char *buf)
 {
+    printf("Ha enviar\n");
     int len = SSL_write(ssl, buf, strlen(buf));
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
@@ -76,8 +77,7 @@ int HttpsGet::get(char *url)
     struct sockaddr_in sa;
     memset (&sa, 0, sizeof(sa));
     sa.sin_family      = AF_INET;
-    sa.sin_addr.s_addr = inet_addr("91.198.174.192"); // address of google.ru
-    sa.sin_port        = htons (443);
+    sa.sin_addr.s_addr = inet_addr("91.198.174.192"); //wikipedia.org
     socklen_t socklen = sizeof(sa);
     if (connect(s, (struct sockaddr *)&sa, socklen)) {
         printf("Error connecting to server.\n");

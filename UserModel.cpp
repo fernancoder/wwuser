@@ -179,7 +179,7 @@ string UserModel::notify_changes()
   pthread_mutex_lock(&user_model_lock);
   HttpsGet *httpsGet = new HttpsGet();
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
-    string url = "https://es.wikipedia.org/w/index.php?title=" + string((*it)->entry_key) + "&action=history";
+    string url = "GET https://es.wikipedia.org/w/index.php?title=" + string((*it)->entry_key) + "&action=history";
     httpsGet->get((char *)(url.c_str()));
   }
   delete httpsGet;
