@@ -57,7 +57,7 @@ void HttpsGet::log_ssl()
     }
 }
 
-int HttpsGet::get(int argc, char *argv[])
+int HttpsGet::get(char *url)
 {
     int s;
     s = socket(AF_INET, SOCK_STREAM, 0);
@@ -68,7 +68,7 @@ int HttpsGet::get(int argc, char *argv[])
     struct sockaddr_in sa;
     memset (&sa, 0, sizeof(sa));
     sa.sin_family      = AF_INET;
-    sa.sin_addr.s_addr = inet_addr("74.125.232.247"); // address of google.ru
+    sa.sin_addr.s_addr = inet_addr("91.198.174.194"); // address of google.ru
     sa.sin_port        = htons (443);
     socklen_t socklen = sizeof(sa);
     if (connect(s, (struct sockaddr *)&sa, socklen)) {
@@ -97,8 +97,8 @@ int HttpsGet::get(int argc, char *argv[])
     }
     printf ("SSL connection using %s\n", SSL_get_cipher (ssl));
 
-    char *request/* = "GET https://www.google.ru/intl/en/about/company/facts/ HTTP/1.1\r\n\r\n"*/;
-    SendPacket(request);
+    /*char *request = "GET https://www.google.ru/intl/en/about/company/facts/ HTTP/1.1\r\n\r\n"*/
+    SendPacket(url);
     RecvPacket();
     return 0;
 }

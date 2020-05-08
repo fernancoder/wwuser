@@ -16,12 +16,13 @@ class HttpsGet
     SSL *ssl;
     int sock;
 
+  public:
+    int get(char *url);
+
   private:
    int RecvPacket();
    int SendPacket(const char *buf);
    void log_ssl();
-
-   int get(int argc, char *argv[]);
 };
 
 

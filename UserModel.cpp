@@ -1,4 +1,5 @@
 #include "UserModel.h"
+#include "HttpsGet.h"
 
 UserModel::UserModel(string user_file_path, string user_term_file_path)
 {
@@ -176,16 +177,12 @@ string UserModel::notify_changes()
 {
   string response;
   pthread_mutex_lock(&user_model_lock);
+  HttpsGet *httpsGet = new HttpsGet();
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
-
-
-
-
-
-    //"https://es.wikipedia.org/w/index.php?title=" + (*it)->entry_key + "&action=history"
-
-
+    string url = "https://es.wikipedia.org/w/index.php?title=" + string((*it)->entry_key) + "&action=history";
+    httpsGet->get((char *)(url.c_str()));
   }
+  delete httpsGet;
   pthread_mutex_unlock(&user_model_lock);
 
   return response;
