@@ -5,32 +5,8 @@
 //============================================================================
 #include "HttpsGet.h"
 
-int HttpsGet::RecvPacket()
-{
-    int len=100;
-    char buf[1000000];
-    printf("Ha recibir\n");
-    do {
-        len=SSL_read(ssl, buf, 100);
-        buf[len]=0;
-        //printf("%d -----> %s\n", len, buf);
-        printf("%s", buf);
-    } while (len > 0);
-    if (len < 0) {
-        int err = SSL_get_error(ssl, len);
-        printf("Error recive %d\n",err);
-        if (err == SSL_ERROR_WANT_READ)
-            return 0;
-        if (err == SSL_ERROR_WANT_WRITE)
-            return 0;
-        if (err == SSL_ERROR_ZERO_RETURN || err == SSL_ERROR_SYSCALL || err == SSL_ERROR_SSL)
-            return -1;
-    }
-}
-
 int HttpsGet::SendPacket(char *buf)
 {
-    printf("Ha enviar\n");
     int len = SSL_write(ssl, buf, strlen(buf));
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
@@ -51,6 +27,29 @@ int HttpsGet::SendPacket(char *buf)
     }
 }
 
+int HttpsGet::RecvPacket()
+{
+    int len=100;
+    char buf[1000000];
+    do {
+        sleep(2);
+        len=SSL_read(ssl, buf, 100);
+        buf[len]=0;
+        //printf("%d -----> %s\n", len, buf);
+        printf("%s", buf);
+    } while (len > 0);
+    if (len < 0) {
+        int err = SSL_get_error(ssl, len);
+        printf("Error recive %d\n",err);
+        if (err == SSL_ERROR_WANT_READ)
+            return 0;
+        if (err == SSL_ERROR_WANT_WRITE)
+            return 0;
+        if (err == SSL_ERROR_ZERO_RETURN || err == SSL_ERROR_SYSCALL || err == SSL_ERROR_SSL)
+            return -1;
+    }
+}
+
 void HttpsGet::log_ssl()
 {
     int err;
@@ -67,7 +66,7 @@ void HttpsGet::log_ssl()
 int HttpsGet::get(char *url)
 {
 
-    printf("%s\n",url);
+    printf("\n%s\n",url);
 
     int s;
     s = socket(AF_INET, SOCK_STREAM, 0);

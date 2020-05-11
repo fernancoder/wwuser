@@ -8,6 +8,11 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
+
+//TO REMOVE
+#include <unistd.h>
+/////
+
 //using namespace std;
 
 class HttpsGet
