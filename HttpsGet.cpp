@@ -35,7 +35,7 @@ int HttpsGet::RecvPacket()
         printf("reading...");
         len=SSL_read(ssl, buf, 100);
         buf[len]=0;
-        printf("[%d]%s", len, buf);
+        //printf("[%d]%s", len, buf);
         //printf("%d -----> %s\n", len, buf);
         //printf("%s", buf);
     } while (len > 0);
@@ -112,5 +112,8 @@ int HttpsGet::get(char *url)
     /*char *request = "GET https://www.google.ru/intl/en/about/company/facts/ HTTP/1.1\r\n\r\n"*/
     SendPacket(url);
     RecvPacket();
+
+    SSL_free(ssl);
+    SSL_CTX_free(ctx);
     return 0;
 }
