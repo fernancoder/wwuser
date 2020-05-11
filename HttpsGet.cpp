@@ -34,6 +34,7 @@ int HttpsGet::RecvPacket()
     do {
         printf("reading...");
         len=SSL_read(ssl, buf, 100);
+        printf("readed...");
         buf[len]=0;
         printf("[%d]%s", len, buf);
         //printf("%d -----> %s\n", len, buf);
