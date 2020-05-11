@@ -32,7 +32,7 @@ int HttpsGet::RecvPacket()
     int len=100;
     char buf[1000000];
     do {
-        sleep(2);
+        printf("reading...");
         len=SSL_read(ssl, buf, 100);
         buf[len]=0;
         printf("[%d]%s", len, buf);
