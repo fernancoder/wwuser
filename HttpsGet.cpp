@@ -40,6 +40,10 @@ int HttpsGet::RecvPacket()
         //printf("%d -----> %s\n", len, buf);
         //printf("%s", buf);
     } while (len > 0);
+
+
+    printf("TERMINADO: %d\n", len);
+
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
         printf("Error recive %d\n",err);
