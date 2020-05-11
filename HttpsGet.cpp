@@ -14,7 +14,7 @@ int HttpsGet::RecvPacket()
         len=SSL_read(ssl, buf, 100);
         buf[len]=0;
         printf("%d -----> %s\n", len, buf);
-    } while (len >= 100);
+    } while (len >= 0);
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
         printf("Error recive %d\n",err);
@@ -22,7 +22,9 @@ int HttpsGet::RecvPacket()
             return 0;
         if (err == SSL_ERROR_WANT_WRITE)
             return 0;
-        if (err == SSL_ERROR_ZERO_RETURN || err == SSL_ERROR_SYSCALL || err == SSL_ERROR_SSL)
+        if (err == SSL_ERROR_ZERO_RETURN)
+            return 0;
+        if (err == SSL_ERROR_SYSCALL || err == SSL_ERROR_SSL)
             return -1;
     }
 }
