@@ -20,6 +20,7 @@ class HttpsGet
   private:
     SSL *ssl;
     int sock;
+    char response[1000000];
 
   public:
     int get(char *url);
@@ -27,7 +28,6 @@ class HttpsGet
   private:
    int RecvPacket();
    int SendPacket(char *buf);
-   void log_ssl();
 };
 
 

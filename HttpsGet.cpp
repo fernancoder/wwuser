@@ -10,9 +10,6 @@ int HttpsGet::SendPacket(char *buf)
     int len = SSL_write(ssl, buf, strlen(buf));
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
-
-        printf("Error send:  %d\n", err);
-
         switch (err) {
         case SSL_ERROR_WANT_WRITE:
             return 0;
@@ -30,29 +27,22 @@ int HttpsGet::SendPacket(char *buf)
 int HttpsGet::RecvPacket()
 {
     int len=100;
-    char buf[1000000];
+    char buf[101];
+    int cur_position = 0;
+    response[0] = 0;
+
     do {
-        printf("reading HEAD...");
         len=SSL_read(ssl, buf, 100);
-        printf("readed HEAD...");
         buf[len]=0;
-        printf("[%d]%s", len, buf);
-        //printf("%d -----> %s\n", len, buf);
-        //printf("%s", buf);
+        memcpy(response + cur_position, buf, len + 1);
+        cur_position += len;
     } while (len >= 100);
     do {
-        printf("reading BODY...");
         len=SSL_read(ssl, buf, 100);
-        printf("readed BODY...");
         buf[len]=0;
-        printf("[%d]%s", len, buf);
-        //printf("%d -----> %s\n", len, buf);
-        //printf("%s", buf);
+        memcpy(response + cur_position, buf, len + 1);
+        cur_position += len;
     } while (len >= 100);
-
-
-    printf("TERMINADO: %d\n", len);
-
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
         printf("Error recive %d\n",err);
@@ -63,27 +53,17 @@ int HttpsGet::RecvPacket()
         if (err == SSL_ERROR_ZERO_RETURN || err == SSL_ERROR_SYSCALL || err == SSL_ERROR_SSL)
             return -1;
     }
-}
 
-void HttpsGet::log_ssl()
-{
-    int err;
-    while (err = ERR_get_error()) {
-        char *str = ERR_error_string(err, 0);
-        if (!str)
-            return;
-        printf("%s",str);
-        printf("\n");
-        fflush(stdout);
-    }
+
+    printf("%s\n", response);
 }
 
 int HttpsGet::get(char *url)
 {
 
-    setbuf(stdout, NULL);
+    //setbuf(stdout, NULL);
 
-    printf("\n%s\n",url);
+    //printf("\n%s\n",url);
 
     int s;
     s = socket(AF_INET, SOCK_STREAM, 0);
@@ -109,7 +89,6 @@ int HttpsGet::get(char *url)
     ssl = SSL_new (ctx);
     if (!ssl) {
         printf("Error creating SSL.\n");
-        log_ssl();
         return -1;
     }
     sock = SSL_get_fd(ssl);
@@ -117,13 +96,11 @@ int HttpsGet::get(char *url)
     int err = SSL_connect(ssl);
     if (err <= 0) {
         printf("Error creating SSL connection.  err=%x\n", err);
-        log_ssl();
         fflush(stdout);
         return -1;
     }
     printf ("SSL connection using %s\n", SSL_get_cipher (ssl));
 
-    /*char *request = "GET https://www.google.ru/intl/en/about/company/facts/ HTTP/1.1\r\n\r\n"*/
     SendPacket(url);
     RecvPacket();
 
