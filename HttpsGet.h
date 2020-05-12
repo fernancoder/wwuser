@@ -19,10 +19,15 @@ class HttpsGet
 {
   private:
     SSL *ssl;
+    SSL_CTX *ctx;
     int sock;
     char response[1000000];
+    bool err_status;
 
   public:
+    HttpsGet();
+    ~HttpsGet();
+    bool getError(){return err_status;};
     int get(char *url);
 
   private:

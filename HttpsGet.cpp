@@ -5,6 +5,53 @@
 //============================================================================
 #include "HttpsGet.h"
 
+
+HttpsGet::HttpsGet()
+{
+    err_status = false;
+    int s;
+    s = socket(AF_INET, SOCK_STREAM, 0);
+    if (s < 0) {
+        printf("Error creating socket.\n");
+        return;
+    }
+    struct sockaddr_in sa;
+    memset (&sa, 0, sizeof(sa));
+    sa.sin_family      = AF_INET;
+    sa.sin_addr.s_addr = inet_addr("91.198.174.192"); //wikipedia.org
+    sa.sin_port = htons(443);
+    socklen_t socklen = sizeof(sa);
+    if (connect(s, (struct sockaddr *)&sa, socklen)) {
+        printf("Error connecting to server %d\n",errno);
+        return;
+    }
+    SSL_library_init();
+    SSLeay_add_ssl_algorithms();
+    SSL_load_error_strings();
+    const SSL_METHOD *meth = TLSv1_2_client_method();
+    ctx = SSL_CTX_new (meth);
+    ssl = SSL_new (ctx);
+    if (!ssl) {
+        printf("Error creating SSL.\n");
+        return;
+    }
+    sock = SSL_get_fd(ssl);
+    SSL_set_fd(ssl, s);
+    int err = SSL_connect(ssl);
+    if (err <= 0) {
+        printf("Error creating SSL connection.  err=%x\n", err);
+        fflush(stdout);
+        return;
+    }
+    //printf ("SSL connection using %s\n", SSL_get_cipher (ssl));
+}
+
+HttpsGet::~HttpsGet()
+{
+  SSL_free(ssl);
+  SSL_CTX_free(ctx);
+}
+
 int HttpsGet::SendPacket(char *buf)
 {
     int len = SSL_write(ssl, buf, strlen(buf));
@@ -54,8 +101,7 @@ int HttpsGet::RecvPacket()
             return -1;
     }
 
-
-    printf("%s\n", response);
+    return 0;
 }
 
 int HttpsGet::get(char *url)
@@ -104,7 +150,9 @@ int HttpsGet::get(char *url)
     SendPacket(url);
     RecvPacket();
 
-    SSL_free(ssl);
-    SSL_CTX_free(ctx);
+
+
+    printf("%s\n",response);
+
     return 0;
 }
