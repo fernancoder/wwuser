@@ -28,7 +28,8 @@ class HttpsGet
     HttpsGet();
     ~HttpsGet();
     bool getError(){return err_status;};
-    int get(char *url);
+    char *getResponse(){return response;};
+    bool get(char *url);
 
   private:
    int RecvPacket();

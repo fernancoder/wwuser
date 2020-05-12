@@ -179,8 +179,14 @@ string UserModel::notify_changes()
   pthread_mutex_lock(&user_model_lock);
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
     HttpsGet *httpsGet = new HttpsGet();
-    string url = "GET https://es.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + string((*it)->entry_key) + "&rvlimit=5&rvslots=main&rvprop=timestamp%7Cuser%7Ccomment&rvdir=newer&rvstart=2018-07-01T00:00:00Z&format=json HTTP/1.1\r\nConnection: close\r\n\r\n";
-    httpsGet->get((char *)(url.c_str()));
+    if ( !httpsGet->getError() )
+    {
+      string url = "GET https://es.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + string((*it)->entry_key) + "&rvlimit=5&rvslots=main&rvprop=timestamp%7Cuser%7Ccomment&rvdir=newer&rvstart=2018-07-01T00:00:00Z&format=json HTTP/1.1\r\nConnection: close\r\n\r\n";
+      if ( httpsGet->get((char *)(url.c_str())) )
+      {
+        printf("%s\n",httpsGet->getResponse());
+      }
+    }
     delete httpsGet;
   }
   pthread_mutex_unlock(&user_model_lock);

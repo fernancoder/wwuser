@@ -13,6 +13,7 @@ HttpsGet::HttpsGet()
     s = socket(AF_INET, SOCK_STREAM, 0);
     if (s < 0) {
         printf("Error creating socket.\n");
+        err_status = true;
         return;
     }
     struct sockaddr_in sa;
@@ -23,6 +24,7 @@ HttpsGet::HttpsGet()
     socklen_t socklen = sizeof(sa);
     if (connect(s, (struct sockaddr *)&sa, socklen)) {
         printf("Error connecting to server %d\n",errno);
+        err_status = true;
         return;
     }
     SSL_library_init();
@@ -33,6 +35,7 @@ HttpsGet::HttpsGet()
     ssl = SSL_new (ctx);
     if (!ssl) {
         printf("Error creating SSL.\n");
+        err_status = true;
         return;
     }
     sock = SSL_get_fd(ssl);
@@ -41,6 +44,7 @@ HttpsGet::HttpsGet()
     if (err <= 0) {
         printf("Error creating SSL connection.  err=%x\n", err);
         fflush(stdout);
+        err_status = true;
         return;
     }
     //printf ("SSL connection using %s\n", SSL_get_cipher (ssl));
@@ -52,13 +56,15 @@ HttpsGet::~HttpsGet()
   SSL_CTX_free(ctx);
 }
 
-int HttpsGet::get(char *url)
+bool HttpsGet::get(char *url)
 {
-    SendPacket(url);
-    RecvPacket();
-    printf("%s\n",response);
+    if ( SendPacket(url) )
+    {
+        RecvPacket();
+        return true;
+    }
 
-    return 0;
+    return false;
 }
 
 int HttpsGet::SendPacket(char *buf)
