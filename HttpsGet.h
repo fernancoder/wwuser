@@ -28,6 +28,8 @@ class HttpsGet
     HttpsGet();
     ~HttpsGet();
     bool getError(){return err_status;};
+    bool stateOk();
+    char *getJsonResponse();
     char *getResponse(){return response;};
     bool get(char *url);
 

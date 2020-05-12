@@ -67,6 +67,16 @@ bool HttpsGet::get(char *url)
     return false;
 }
 
+bool HttpsGet::stateOk()
+{
+    return memcmp(response,"HTTP/1.1 200", 12) == 0;
+}
+
+char *HttpsGet::getJsonResponse()
+{
+    return response;
+}
+
 int HttpsGet::SendPacket(char *buf)
 {
     int len = SSL_write(ssl, buf, strlen(buf));
@@ -107,7 +117,7 @@ int HttpsGet::RecvPacket()
     } while (len >= 100);
     if (len < 0) {
         int err = SSL_get_error(ssl, len);
-        printf("Error recive %d\n",err);
+        //printf("Error recive %d\n",err);
         if (err == SSL_ERROR_WANT_READ)
             return 0;
         if (err == SSL_ERROR_WANT_WRITE)
