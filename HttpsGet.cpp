@@ -74,7 +74,18 @@ bool HttpsGet::stateOk()
 
 char *HttpsGet::getJsonResponse()
 {
-    return response;
+    char *cur_response = response
+
+    while ( true )
+    {
+      if ( cur_response == NULL)
+        return NULL;
+      if ( memcmp(cur_response, "{\"continue\":{", 13) )
+        cur_response++;
+      else
+        break;
+    }
+    return cur_response;
 }
 
 int HttpsGet::SendPacket(char *buf)
