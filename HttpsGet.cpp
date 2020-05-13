@@ -74,7 +74,7 @@ bool HttpsGet::stateOk()
 
 char *HttpsGet::getJsonResponse()
 {
-    char *cur_response = response
+    char *cur_response = response;
 
     while ( true )
     {
