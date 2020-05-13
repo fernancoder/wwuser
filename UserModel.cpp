@@ -175,6 +175,11 @@ void UserModel::remove_user_term(string user_id, string entry_key)
 
 string UserModel::notify_changes()
 {
+
+  //TO-REMOVE
+  setbuf(stdout, NULL);
+  //TO-REMOVE
+
   string response;
   pthread_mutex_lock(&user_model_lock);
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
