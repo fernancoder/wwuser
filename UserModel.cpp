@@ -186,7 +186,9 @@ string UserModel::notify_changes()
       {
         if ( httpsGet->stateOk() )
         {
-          printf("%s\n",httpsGet->getJsonResponse());
+          char *json_response = httpsGet->getJsonResponse();
+          if ( *json_response != '\0' )
+            printf("%s\n",json_response);
         }
       }
     }
