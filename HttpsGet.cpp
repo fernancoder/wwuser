@@ -81,9 +81,12 @@ char *HttpsGet::getJsonResponse()
 
     while ( true )
     {
+
+      printf("%c",*cur_response);
+
       if ( *cur_response == '\0')
       {
-        printf("Veo un puto NULL\n");
+        printf("\nVeo un puto NULL\n");
         return NULL;
       }
       if ( memcmp(cur_response, "{\"continue\":{", 13) )
@@ -95,7 +98,7 @@ char *HttpsGet::getJsonResponse()
     }
 
 
-    printf("Salgo con %s\n",cur_response);
+    printf("\nSalgo con %s\n",cur_response);
     return cur_response;
 }
 
