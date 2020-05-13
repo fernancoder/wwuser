@@ -201,6 +201,11 @@ string UserModel::notify_changes()
               memcpy(update_date, response_date, 20);
               update_date[20] = '\0';
               printf("[%s]%s -> %s (%s)\n", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
+
+              if ( strcmp(update_date,(*it)->last_update) > 0 )
+              {
+                printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
+              }
             }
           }
         }
