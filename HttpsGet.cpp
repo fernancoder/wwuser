@@ -76,7 +76,7 @@ char *HttpsGet::getJsonResponse()
 {
     char *cur_response = response;
 
-    printf("Empiezo análisis con %c\n",cur_response);
+    printf("Empiezo análisis con %c%c%c%c\n",*cur_response, *(cur_response+1), *(cur_response+2), *(cur_response+4));
 
     while ( true )
     {
@@ -94,7 +94,7 @@ char *HttpsGet::getJsonResponse()
     }
 
 
-    printf("Salgo\n");
+    printf("Salgo con %s\n",cur_response);
     return cur_response;
 }
 
