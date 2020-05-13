@@ -76,15 +76,24 @@ char *HttpsGet::getJsonResponse()
 {
     char *cur_response = response;
 
+    printf("Empiezo análisis\n");
+
     while ( true )
     {
       if ( cur_response == NULL)
+      {
         return NULL;
+      }
       if ( memcmp(cur_response, "{\"continue\":{", 13) )
+      {
         cur_response++;
+      }
       else
         break;
     }
+
+
+    printf("Salgo\n");
     return cur_response;
 }
 
