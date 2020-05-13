@@ -58,7 +58,7 @@ HttpsGet::~HttpsGet()
 
 bool HttpsGet::get(char *url)
 {
-    printf("URL:%s----->\n", url);
+    //printf("URL:%s----->\n", url);
     if ( SendPacket(url) )
     {
         RecvPacket();
