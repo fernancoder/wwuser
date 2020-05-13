@@ -58,6 +58,7 @@ HttpsGet::~HttpsGet()
 
 bool HttpsGet::get(char *url)
 {
+    printf("URL:%s\n", url);
     if ( SendPacket(url) )
     {
         RecvPacket();
@@ -80,7 +81,7 @@ char *HttpsGet::getJsonResponse()
 
     while ( true )
     {
-      if ( cur_response == NULL)
+      if ( *cur_response == '\0')
       {
         printf("Veo un puto NULL\n");
         return NULL;
