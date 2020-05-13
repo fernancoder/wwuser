@@ -39,6 +39,7 @@ class UserModel
       vector<UserTermRecord *> userTermRecords;
       void push_users();
       void push_user_terms();
+      char *extract_update_date(char *json);
 };
 
 #endif /* USER_MODEL_H_ */

@@ -175,12 +175,13 @@ void UserModel::remove_user_term(string user_id, string entry_key)
 
 string UserModel::notify_changes()
 {
+  char update_date[21];
+  string response;
 
   //TO-REMOVE
   setbuf(stdout, NULL);
   //TO-REMOVE
 
-  string response;
   pthread_mutex_lock(&user_model_lock);
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
     HttpsGet *httpsGet = new HttpsGet();
@@ -193,7 +194,15 @@ string UserModel::notify_changes()
         {
           char *json_response = httpsGet->getJsonResponse();
           if ( json_response != NULL )
-            printf("%s\n",json_response);
+          {
+            char *response_date = extract_update_date(json_response);
+            if ( response_date != NULL )
+            {
+              memcpy(update_date, response_date, 20);
+              update_date[20] = '\0';
+              printf("%s -> %s", (*it)->entry_title, update_date);
+            }
+          }
         }
       }
     }
@@ -247,4 +256,20 @@ bool UserModel::user_term_exists(string user_id, string entry_key)
 
   pthread_mutex_unlock(&user_model_lock);
   return false;
+}
+
+char *UserModel::extract_update_date(char *json)
+{
+   char *cur_json = json;
+    while ( true )
+    {
+      if ( *cur_json == '\0')
+        return NULL;
+      if ( memcmp(cur_json, "\"timestamp\":\"", 11 ) )
+        cur_json++;
+      else
+        break;
+    }
+
+    return cur_json+11;
 }
