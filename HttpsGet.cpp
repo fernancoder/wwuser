@@ -58,7 +58,7 @@ HttpsGet::~HttpsGet()
 
 bool HttpsGet::get(char *url)
 {
-    printf("URL:%s\n", url);
+    printf("URL:%s----->\n", url);
     if ( SendPacket(url) )
     {
         RecvPacket();
@@ -77,7 +77,7 @@ char *HttpsGet::getJsonResponse()
 {
     char *cur_response = response;
 
-    printf("Empiezo análisis con %c%c%c%c\n",*cur_response, *(cur_response+1), *(cur_response+2), *(cur_response+4));
+    printf("Empiezo análisis con %c%c%c%c\n",*cur_response, *(cur_response+1), *(cur_response+2), *(cur_response+3));
 
     while ( true )
     {
