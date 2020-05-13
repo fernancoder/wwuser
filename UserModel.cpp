@@ -200,7 +200,7 @@ string UserModel::notify_changes()
             {
               memcpy(update_date, response_date, 20);
               update_date[20] = '\0';
-              printf("%s -> %s", (*it)->entry_title, update_date);
+              printf("%s -> %s\n", (*it)->entry_title, update_date);
             }
           }
         }
@@ -271,5 +271,5 @@ char *UserModel::extract_update_date(char *json)
         break;
     }
 
-    return cur_json+11;
+    return cur_json+13;
 }
