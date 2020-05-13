@@ -76,29 +76,16 @@ bool HttpsGet::stateOk()
 char *HttpsGet::getJsonResponse()
 {
     char *cur_response = response;
-
-    printf("Empiezo análisis con %c%c%c%c\n",*cur_response, *(cur_response+1), *(cur_response+2), *(cur_response+3));
-
     while ( true )
     {
-
-      printf("%c",*cur_response);
-
       if ( *cur_response == '\0')
-      {
-        printf("\nVeo un puto NULL\n");
         return NULL;
-      }
       if ( memcmp(cur_response, "{\"continue\":{", 13) )
-      {
         cur_response++;
-      }
       else
         break;
     }
 
-
-    printf("\nSalgo con %s\n",cur_response);
     return cur_response;
 }
 
