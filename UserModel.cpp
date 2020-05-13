@@ -123,7 +123,7 @@ void UserModel::add_user_term(string user_id, string entry_key, string entry_tit
   char buffer[80];
   time (&rawtime);
   timeinfo = localtime(&rawtime);
-  strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S",timeinfo);
+  strftime(buffer,sizeof(buffer),"%Y-%m-%dT%H:%M:%SZ",timeinfo);
   std::string str(buffer);
   strcpy(userTermRecord->last_update, str.c_str());
 
