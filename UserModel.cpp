@@ -205,7 +205,8 @@ string UserModel::notify_changes()
 
               if ( strcmp(update_date,(*it)->last_update) > 0 )
               {
-                printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
+                //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
+                send_notification((*it)->user_id, (*it)->entry_title);
               }
             }
           }
@@ -217,6 +218,16 @@ string UserModel::notify_changes()
   pthread_mutex_unlock(&user_model_lock);
 
   return response;
+}
+
+void UserModel::send_notification(char *user_id, char *entry_title)
+{
+  for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
+    if ( strcmp(user_id, (*it)->user_id) == 0 )
+    {
+      printf("%s by %s", entry_title, (*it)->token);
+    }
+  }
 }
 
 void UserModel::push_user_terms()
