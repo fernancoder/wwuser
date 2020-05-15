@@ -3,6 +3,7 @@
 
 #include "daework-include.h"
 #include "daework-kernel.h"
+#include "daework-support.h"
 #include <ctime>
 
 struct UserRecord

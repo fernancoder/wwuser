@@ -236,8 +236,8 @@ void UserModel::send_notification(char *user_id, char *entry_title)
         strcat(payload, (*it)->token);
         strcat(payload, "'}");
 
-        string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + payload.length + "\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
-        printf("ENVIO: %s", url.c_str(), payload);
+        string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + Util::intToString((int)strlen(payload)) + "\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
+        printf("ENVIO: %s\n%s", url.c_str(), payload);
         if ( pushNotification->get((char *)(url.c_str()), payload) )
         {
 

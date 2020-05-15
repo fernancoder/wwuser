@@ -56,10 +56,10 @@ PushNotification::~PushNotification()
   SSL_CTX_free(ctx);
 }
 
-bool PushNotification::get(char *url, char *token, char *entry_title)
+bool PushNotification::get(char *url, char *entry_title)
 {
     //printf("URL:%s----->\n", url);
-    if ( SendPacket(url, token, entry_title) )
+    if ( SendPacket(url, entry_title) )
     {
         RecvPacket();
         return true;
