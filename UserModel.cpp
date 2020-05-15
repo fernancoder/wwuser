@@ -1,5 +1,6 @@
 #include "UserModel.h"
 #include "HttpsGet.h"
+#include "PushNotification.h"
 
 UserModel::UserModel(string user_file_path, string user_term_file_path)
 {
@@ -226,7 +227,21 @@ void UserModel::send_notification(char *user_id, char *entry_title)
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( strcmp(user_id, (*it)->user_id) == 0 )
     {
-      printf("%s by %s", entry_title, (*it)->token);
+
+
+
+      PushNotification *pushNotification = new PushNotification();
+      if ( !pushNotification->getError() )
+      {
+        string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
+        if ( pushNotification->get((char *)(url.c_str()), (*it)->token, entry_title) )
+        {
+          if ( pushNotification->stateOk() )
+          {
+
+          }
+        }
+      }
     }
   }
 }
