@@ -224,16 +224,21 @@ string UserModel::notify_changes()
 }
 
 void UserModel::send_notification(char *user_id, char *entry_title)
-{
+{ char payload[1024];
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( strcmp(user_id, (*it)->user_id) == 0 )
     {
       PushNotification *pushNotification = new PushNotification();
       if ( !pushNotification->getError() )
       {
-        string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
-        printf("ENVIO: %s", url.c_str());
-        if ( pushNotification->get((char *)(url.c_str()), (*it)->token, entry_title) )
+
+        strcpy(payload, "{notification: {title: 'cambio',body: 'body', sound: 'default'},to: '");
+        strcat(payload, (*it)->token);
+        strcat(payload, "'}");
+
+        string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + payload.length + "\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
+        printf("ENVIO: %s", url.c_str(), payload);
+        if ( pushNotification->get((char *)(url.c_str()), payload) )
         {
 
 

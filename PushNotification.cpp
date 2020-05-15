@@ -89,15 +89,8 @@ bool PushNotification::stateOk()
     return cur_response;
 }*/
 
-int PushNotification::SendPacket(char *buf, char *token, char *entry_title)
+int PushNotification::SendPacket(char *buf, char *payload)
 {
-    char payload[1024];
-    strcpy(payload, "{notification: {title: 'cambio',body: 'body', sound: 'default'},to: '");
-    strcat(payload, token);
-    strcat(payload, "'}");
-
-    printf("%s\n", payload);
-
     int len = SSL_write(ssl, buf, strlen(buf));
     len = SSL_write(ssl, payload, strlen(payload));
     if (len < 0) {

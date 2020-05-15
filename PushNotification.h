@@ -34,7 +34,7 @@ class PushNotification
 
   private:
    int RecvPacket();
-   int SendPacket(char *buf, char *token, char *entry_title);
+   int SendPacket(char *buf, char *payload);
 };
 
 
