@@ -208,7 +208,7 @@ string UserModel::notify_changes()
               if ( strcmp(update_date,(*it)->last_update) <= 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
-                printf("Envío\n");
+                //printf("Envío\n");
                 send_notification((*it)->user_id, (*it)->entry_title);
               }
             }
@@ -246,7 +246,7 @@ void UserModel::send_notification(char *user_id, char *entry_title)
         {
 
 
-          //printf("RESPUESTA: %s", pushNotification->getResponse());
+          printf("RESPUESTA: %s", pushNotification->getResponse());
 
           if ( pushNotification->stateOk() )
           {
