@@ -235,6 +235,10 @@ void UserModel::send_notification(char *user_id, char *entry_title)
         printf("ENVIO: %s", url.c_str());
         if ( pushNotification->get((char *)(url.c_str()), (*it)->token, entry_title) )
         {
+
+
+          printf("RESPUESTA: %s", pushNotification->getResponse());
+
           if ( pushNotification->stateOk() )
           {
 

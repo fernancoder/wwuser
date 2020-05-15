@@ -29,6 +29,7 @@ class PushNotification
     ~PushNotification();
     bool getError(){return err_status;};
     bool stateOk();
+    char *getResponse(){return response;};
     bool get(char *url, char *token, char *entry_title);
 
   private:

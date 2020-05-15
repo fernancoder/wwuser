@@ -92,10 +92,11 @@ bool PushNotification::stateOk()
 int PushNotification::SendPacket(char *buf, char *token, char *entry_title)
 {
     char payload[1024];
-    strcpy(payload, "{notification: {title: 'cambio',body: 'body', sound: 'default'},to: ");
+    strcpy(payload, "{notification: {title: 'cambio',body: 'body', sound: 'default'},to: '");
     strcat(payload, token);
-    strcat(payload, "}");
+    strcat(payload, "'}");
 
+    printf("%s\n", payload);
 
     int len = SSL_write(ssl, buf, strlen(buf));
     len = SSL_write(ssl, payload, strlen(payload));
