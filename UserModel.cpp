@@ -233,10 +233,10 @@ void UserModel::send_notification(char *user_id, char *entry_title)
       {
 
         strcpy(payload, "{\"notification\": {\"title\": \"Entrada ");
-        strcpy(payload, entry_title);
-        strcpy(payload, " modificada\",\"body\": \"Se ha detectado un cambio realizado en la entrada ");
-        strcpy(payload, entry_title);
-        strcpy(payload, " de Wikipedia con fecha\", \"sound\": \"default\"},\"to\": \"");
+        strcat(payload, entry_title);
+        strcat(payload, " modificada\",\"body\": \"Se ha detectado un cambio realizado en la entrada ");
+        strcat(payload, entry_title);
+        strcat(payload, " de Wikipedia con fecha\", \"sound\": \"default\"},\"to\": \"");
         strcat(payload, (*it)->token);
         strcat(payload, "\"}");
 
