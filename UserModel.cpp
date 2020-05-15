@@ -232,7 +232,7 @@ void UserModel::send_notification(char *user_id, char *entry_title)
       if ( !pushNotification->getError() )
       {
 
-        strcpy(payload, "{notification: {title: 'cambio',body: 'body', sound: 'default'},to: '");
+        strcpy(payload, "{'notification': {'title': 'cambio','body': 'body', 'sound': 'default'},'to': '");
         strcat(payload, (*it)->token);
         strcat(payload, "'}");
 
