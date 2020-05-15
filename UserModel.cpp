@@ -209,7 +209,7 @@ string UserModel::notify_changes()
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
                 //printf("Envío\n");
-                send_notification((*it)->user_id, (*it)->entry_title);
+                send_notification((*it)->user_id, update_date, (*it)->entry_title);
               }
             }
           }
@@ -223,7 +223,7 @@ string UserModel::notify_changes()
   return response;
 }
 
-void UserModel::send_notification(char *user_id, char *entry_title)
+void UserModel::send_notification(char *user_id, char *update_date, char *entry_title)
 { char payload[1024];
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( strcmp(user_id, (*it)->user_id) == 0 )
@@ -236,7 +236,9 @@ void UserModel::send_notification(char *user_id, char *entry_title)
         strcat(payload, entry_title);
         strcat(payload, " modificada\",\"body\": \"Se ha detectado un cambio realizado en la entrada ");
         strcat(payload, entry_title);
-        strcat(payload, " de Wikipedia con fecha\", \"sound\": \"default\"},\"to\": \"");
+        strcat(payload, " de Wikipedia con fecha ");
+        strcat(payload, update_date);
+        strcat(payload, "\", \"sound\": \"default\"},\"to\": \"");
         strcat(payload, (*it)->token);
         strcat(payload, "\"}");
 
