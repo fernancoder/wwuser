@@ -232,7 +232,11 @@ void UserModel::send_notification(char *user_id, char *entry_title)
       if ( !pushNotification->getError() )
       {
 
-        strcpy(payload, "{\"notification\": {\"title\": \"Entrada modificada\",\"body\": \"Se ha detectado un cambio realizado en la entrada de Wikipedia con fecha\", \"sound\": \"default\"},\"to\": \"");
+        strcpy(payload, "{\"notification\": {\"title\": \"Entrada ");
+        strcpy(payload, entry_title);
+        strcpy(payload, " modificada\",\"body\": \"Se ha detectado un cambio realizado en la entrada ");
+        strcpy(payload, entry_title);
+        strcpy(payload, " de Wikipedia con fecha\", \"sound\": \"default\"},\"to\": \"");
         strcat(payload, (*it)->token);
         strcat(payload, "\"}");
 
