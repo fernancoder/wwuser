@@ -208,6 +208,7 @@ string UserModel::notify_changes()
               if ( strcmp(update_date,(*it)->last_update) <= 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
+                printf("Envío\n");
                 send_notification((*it)->user_id, (*it)->entry_title);
               }
             }
@@ -227,13 +228,11 @@ void UserModel::send_notification(char *user_id, char *entry_title)
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( strcmp(user_id, (*it)->user_id) == 0 )
     {
-
-
-
       PushNotification *pushNotification = new PushNotification();
       if ( !pushNotification->getError() )
       {
         string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
+        printf("ENVIO: %s". url);
         if ( pushNotification->get((char *)(url.c_str()), (*it)->token, entry_title) )
         {
           if ( pushNotification->stateOk() )
@@ -242,6 +241,7 @@ void UserModel::send_notification(char *user_id, char *entry_title)
           }
         }
       }
+      delete pushNotification;
     }
   }
 }
