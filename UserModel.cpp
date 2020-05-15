@@ -232,17 +232,17 @@ void UserModel::send_notification(char *user_id, char *entry_title)
       if ( !pushNotification->getError() )
       {
 
-        strcpy(payload, "{\"notification\": {\"title\": \"cambio\",\"body\": \"body\", \"sound\": \"default\"},\"to\": \"");
+        strcpy(payload, "{\"notification\": {\"title\": \"Entrada modificada\",\"body\": \"Se ha detectado un cambio realizado en la entrada de Wikipedia con fecha\", \"sound\": \"default\"},\"to\": \"");
         strcat(payload, (*it)->token);
         strcat(payload, "\"}");
 
         string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + Util::intToString((int)strlen(payload)) + "\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
-        printf("ENVIO: %s\n%s", url.c_str(), payload);
+        //printf("ENVIO: %s\n%s", url.c_str(), payload);
         if ( pushNotification->get((char *)(url.c_str()), payload) )
         {
 
 
-          printf("RESPUESTA: %s", pushNotification->getResponse());
+          //printf("RESPUESTA: %s", pushNotification->getResponse());
 
           if ( pushNotification->stateOk() )
           {
