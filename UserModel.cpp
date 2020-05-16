@@ -1,6 +1,7 @@
 #include "UserModel.h"
 #include "HttpsGet.h"
 #include "PushNotification.h"
+#include <iomanip>
 
 UserModel::UserModel(string user_file_path, string user_term_file_path)
 {
@@ -189,7 +190,7 @@ string UserModel::notify_changes()
     if ( !httpsGet->getError() )
     {
       //string url = "GET https://es.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + string((*it)->entry_key) + "&rvlimit=1&rvslots=main&rvprop=timestamp%7Cuser%7Ccomment&rvdir=older&rvend=2050-01-01T00:00:00Z&format=json HTTP/1.1\r\nConnection: close\r\n\r\n";
-      string url = "GET https://es.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + string((*it)->entry_key) + "&rvlimit=1&rvprop=timestamp%7Cuser%7Ccomment&format=json HTTP/1.1\r\nConnection: close\r\n\r\n";
+      string url = "GET https://es.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + url_encode(string((*it)->entry_key)) + "&rvlimit=1&rvprop=timestamp%7Cuser%7Ccomment&format=json HTTP/1.1\r\nConnection: close\r\n\r\n";
       if ( httpsGet->get((char *)(url.c_str())) )
       {
         if ( httpsGet->stateOk() )
@@ -320,4 +321,27 @@ char *UserModel::extract_update_date(char *json)
     }
 
     return cur_json+13;
+}
+
+string UserModel::url_encode(const string &value) {
+    ostringstream escaped;
+    escaped.fill('0');
+    escaped << hex;
+
+    for (string::const_iterator i = value.begin(), n = value.end(); i != n; ++i) {
+        string::value_type c = (*i);
+
+        // Keep alphanumeric and other accepted characters intact
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+            escaped << c;
+            continue;
+        }
+
+        // Any other characters are percent-encoded
+        escaped << uppercase;
+        escaped << '%' << setw(2) << int((unsigned char) c);
+        escaped << nouppercase;
+    }
+
+    return escaped.str();
 }

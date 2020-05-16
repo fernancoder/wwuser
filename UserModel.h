@@ -42,6 +42,7 @@ class UserModel
       void push_user_terms();
       char *extract_update_date(char *json);
       void send_notification(char *user_id, char *update_date, char *entry_title);
+      string url_encode(const string &value);
 };
 
 #endif /* USER_MODEL_H_ */
