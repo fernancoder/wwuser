@@ -205,8 +205,7 @@ string UserModel::notify_changes()
               update_date[20] = '\0';
               printf("[%s]%s -> %s (%s)\n", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
 
-              //if ( strcmp(update_date,(*it)->last_update) > 0 )
-              if ( strcmp(update_date,(*it)->last_update) <= 0 )
+              if ( strcmp(update_date,(*it)->last_update) > 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
                 //printf("Envío\n");
@@ -244,12 +243,12 @@ void UserModel::send_notification(char *user_id, char *update_date, char *entry_
         strcat(payload, "\"}");
 
         string url = "POST https://fcm.googleapis.com/fcm/send HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + Util::intToString((int)strlen(payload)) + "\r\nAuthorization: key=AAAAdh166Bg:APA91bFLhhUmyIIrWakVXjZRyER3uOFgc_r6pJMvzTxWV7kW64aM3VovXGlrA1IKw2rdjxrNwyLP2IR64TLj9HuyOn5-Juj_YYzA7P1KqupAknfOFP8p28PjFezJNgFimmQYjEwNPoxz\r\nConnection: close\r\n\r\n";
-        printf("ENVIO: %s\n%s", url.c_str(), payload);
+        //printf("ENVIO: %s\n%s", url.c_str(), payload);
         if ( pushNotification->get((char *)(url.c_str()), payload) )
         {
 
 
-          printf("RESPUESTA: %s", pushNotification->getResponse());
+          //printf("RESPUESTA: %s", pushNotification->getResponse());
 
           if ( pushNotification->stateOk() )
           {
