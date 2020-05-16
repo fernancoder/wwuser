@@ -179,6 +179,7 @@ string UserModel::notify_changes()
 {
   char update_date[21];
   string response;
+  bool any_send = false;
 
   //TO-REMOVE
   setbuf(stdout, NULL);
@@ -209,7 +210,18 @@ string UserModel::notify_changes()
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
                 printf(" ENVIADO");
-                send_notification((*it)->user_id, update_date, (*it)->entry_title);
+                if ( send_notification((*it)->user_id, update_date, (*it)->entry_title) )
+                {
+                  time_t rawtime;
+                  struct tm * timeinfo;
+                  char buffer[80];
+                  time (&rawtime);
+                  timeinfo = localtime(&rawtime);
+                  strftime(buffer,sizeof(buffer),"%Y-%m-%dT%H:%M:%SZ",timeinfo);
+                  std::string str(buffer);
+                  strcpy((*it)->last_update, str.c_str());
+                  any_send = true;
+                }
               }
               printf("\n");
             }
@@ -224,8 +236,9 @@ string UserModel::notify_changes()
   return response;
 }
 
-void UserModel::send_notification(char *user_id, char *update_date, char *entry_title)
-{ char payload[1024];
+bool UserModel::send_notification(char *user_id, char *update_date, char *entry_title)
+{
+  char payload[1024];
   for(vector<UserRecord *>::iterator it = userRecords.begin(); it != userRecords.end(); ++it) {
     if ( strcmp(user_id, (*it)->user_id) == 0 )
     {
@@ -248,18 +261,19 @@ void UserModel::send_notification(char *user_id, char *update_date, char *entry_
         if ( pushNotification->get((char *)(url.c_str()), payload) )
         {
 
-
           //printf("RESPUESTA: %s", pushNotification->getResponse());
 
           if ( pushNotification->stateOk() )
           {
-
+            delete pushNotification;
+            return true;
           }
         }
       }
       delete pushNotification;
     }
   }
+  return false;
 }
 
 void UserModel::push_user_terms()
