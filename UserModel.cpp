@@ -180,13 +180,16 @@ string UserModel::notify_changes()
 {
   char update_date[21];
   string response;
-  bool any_send = false;
+  //bool any_send = false;
 
   //TO-REMOVE
   setbuf(stdout, NULL);
   //TO-REMOVE
 
   pthread_mutex_lock(&user_model_lock);
+
+  FILE* USER_EVENTS = fopen(user_term_file_path.c_str(), "a+b");
+
   for(vector<UserTermRecord *>::iterator it = userTermRecords.begin(); it != userTermRecords.end(); ++it) {
     HttpsGet *httpsGet = new HttpsGet();
     if ( !httpsGet->getError() )
@@ -221,10 +224,17 @@ string UserModel::notify_changes()
                   strftime(buffer,sizeof(buffer),"%Y-%m-%dT%H:%M:%SZ",timeinfo);
                   std::string str(buffer);
                   strcpy((*it)->last_update, str.c_str());
-                  any_send = true;
+                  //any_send = true;
+
+                  UserEventRecord userEventRecord;
+                  strcpy(userEventRecord.user_id, (*it)->user_id);
+                  strcpy(userEventRecord.entry_title, (*it)->entry_title);
+                  strcpy(userEventRecord.creation_date, str.c_str());
+
+                  fwrite(&userEventRecord, sizeof(UserTermRecord),1,USER_EVENTS);
                 }
               }
-              printf("\n");
+              //printf("\n");
             }
           }
         }
@@ -232,6 +242,7 @@ string UserModel::notify_changes()
     }
     delete httpsGet;
   }
+  fclose(USER_EVENTS);
   pthread_mutex_unlock(&user_model_lock);
 
   return response;
