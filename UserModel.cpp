@@ -3,10 +3,11 @@
 #include "PushNotification.h"
 #include <iomanip>
 
-UserModel::UserModel(string user_file_path, string user_term_file_path)
+UserModel::UserModel(string user_file_path, string user_term_file_path, string user_event_file_path)
 {
   this->user_file_path = user_file_path;
   this->user_term_file_path = user_term_file_path;
+  this->user_event_file_path = user_event_file_path;
   pthread_mutex_init(&user_model_lock,NULL);
   pthread_mutex_lock(&user_model_lock);
 
@@ -204,12 +205,12 @@ string UserModel::notify_changes()
             {
               memcpy(update_date, response_date, 20);
               update_date[20] = '\0';
-              printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
+              //printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
 
               if ( strcmp(update_date,(*it)->last_update) > 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
-                printf(" ENVIADO");
+                //printf(" ENVIADO");
                 if ( send_notification((*it)->user_id, update_date, (*it)->entry_title) )
                 {
                   time_t rawtime;

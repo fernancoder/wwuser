@@ -3,6 +3,7 @@
 #include "Add_user_termAction.h"
 #include "Remove_user_termAction.h"
 #include "List_user_termsAction.h"
+#include "List_user_eventsAction.h"
 #include "Notify_changesAction.h"
 
 
@@ -23,6 +24,9 @@ Action *WwusersDispatcher::getHandler(string action)
 
   if ( action.compare("notify_changes") == 0 )
     return Notify_changesAction::createHandler();
+
+  if ( action.compare("list_user_events") == 0 )
+    return List_user_eventsAction::createHandler();
 
   return defaultAction(action);
 }

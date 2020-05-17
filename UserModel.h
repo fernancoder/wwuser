@@ -20,10 +20,17 @@ struct UserTermRecord
    char last_update[20];
 };
 
+struct UserEventRecord
+{
+   char user_id[256];
+   char entry_title[256];
+   char creation_date[20];
+};
+
 class UserModel
 {
     public:
-      UserModel(string user_file_path, string user_term_file_path);
+      UserModel(string user_file_path, string user_term_file_path, string user_event_file_path);
       ~UserModel();
       void add_user(string user_id, string token);
       void add_user_term(string user_id, string entry_key, string entry_title);
@@ -36,6 +43,7 @@ class UserModel
       pthread_mutex_t user_model_lock;
       string user_file_path;
       string user_term_file_path;
+      string user_event_file_path;
       vector<UserRecord *> userRecords;
       vector<UserTermRecord *> userTermRecords;
       void push_users();
