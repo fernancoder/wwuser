@@ -208,13 +208,13 @@ string UserModel::notify_changes()
             {
               memcpy(update_date, response_date, 20);
               update_date[20] = '\0';
-              printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
+              //printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
 
-              if ( strcmp(update_date,(*it)->last_update) < 0 ) //FORZAR
-              //if ( strcmp(update_date,(*it)->last_update) > 0 )
+              //if ( strcmp(update_date,(*it)->last_update) < 0 ) //FORZAR
+              if ( strcmp(update_date,(*it)->last_update) > 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
-                printf(" ENVIADO");
+                //printf(" ENVIADO");
                 if ( send_notification((*it)->user_id, update_date, (*it)->entry_title) )
                 {
                   /*time_t rawtime;
@@ -236,7 +236,7 @@ string UserModel::notify_changes()
                   fwrite(&userEventRecord, sizeof(UserEventRecord),1,USER_EVENTS);
                 }
               }
-              printf("\n");
+              //printf("\n");
             }
           }
         }
@@ -315,12 +315,12 @@ vector<UserEventRecord *> UserModel::list_user_events(string user_id)
     while ( recordsRead != 0 )
     {
 
-      printf("%s (%s) -> %s\n", userEventRecord->user_id, user_id.c_str(), userEventRecord->entry_title);
+      //printf("%s (%s) -> %s\n", userEventRecord->user_id, user_id.c_str(), userEventRecord->entry_title);
 
       if ( userEventRecord->user_id == user_id )
       {
         currentUserEventRecords.push_back(userEventRecord);
-        printf("Incluyo: %s\n",userEventRecord->entry_title);
+        //printf("Incluyo: %s\n",userEventRecord->entry_title);
       }
       else
       {
@@ -335,7 +335,7 @@ vector<UserEventRecord *> UserModel::list_user_events(string user_id)
 
   pthread_mutex_unlock(&user_model_lock);
 
-  //std::sort(currentUserEventRecords.begin(), currentUserEventRecords.end(), user_events_sorter);
+  std::sort(currentUserEventRecords.begin(), currentUserEventRecords.end(), user_events_sorter);
 
   return currentUserEventRecords;
 }
