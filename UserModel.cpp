@@ -210,7 +210,7 @@ string UserModel::notify_changes()
               update_date[20] = '\0';
               printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
 
-              if ( strcmp(update_date,(*it)->last_update) < 0 )
+              if ( strcmp(update_date,(*it)->last_update) > 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
                 printf(" ENVIADO");
@@ -313,6 +313,9 @@ vector<UserEventRecord *> UserModel::list_user_events(string user_id)
 
     while ( recordsRead != 0 )
     {
+
+      printf("%s (%s) -> %s\n", userEventRecord->user_id, user_id.c_str(), userEventRecord->entry_title);
+
       if ( userEventRecord->user_id == user_id )
       {
         currentUserEventRecords.push_back(userEventRecord);
