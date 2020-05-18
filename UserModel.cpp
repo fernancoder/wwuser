@@ -2,6 +2,7 @@
 #include "HttpsGet.h"
 #include "PushNotification.h"
 #include <iomanip>
+#include <algorithm>
 
 UserModel::UserModel(string user_file_path, string user_term_file_path, string user_event_file_path)
 {
@@ -209,8 +210,7 @@ string UserModel::notify_changes()
               update_date[20] = '\0';
               //printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
 
-              //if ( strcmp(update_date,(*it)->last_update) > 0 )
-              if ( strcmp(update_date,(*it)->last_update) <= 0 )
+              if ( strcmp(update_date,(*it)->last_update) < 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
                 //printf(" ENVIADO");
@@ -287,6 +287,48 @@ bool UserModel::send_notification(char *user_id, char *update_date, char *entry_
     }
   }
   return false;
+}
+
+
+bool by_more_than_1_field( UserEventRecord *a, UserEventRecord *b )
+{
+  return a->creation_date < b->creation_date;
+}
+
+
+vector<UserEventRecord *> UserModel::list_user_events(string user_id)
+{
+  vector<UserEventRecord *> currentUserEventRecords;
+
+  pthread_mutex_lock(&user_model_lock);
+
+  UserEventRecord *userEventRecord;
+  FILE* USER_EVENTS = fopen(user_event_file_path.c_str(), "rb");
+
+  if ( USER_EVENTS )
+  {
+    // File has been successfully opened, we can try to read data
+    userEventRecord = new UserEventRecord();
+    size_t recordsRead = fread(userEventRecord,sizeof(UserEventRecord),1,USER_EVENTS);
+
+    while ( recordsRead != 0 )
+    {
+      if ( userEventRecord->user_id == user_id )
+        currentUserEventRecords.push_back(userEventRecord);
+      else
+        delete userEventRecord;
+      userEventRecord = new UserEventRecord();
+      recordsRead = fread(userEventRecord,sizeof(UserEventRecord),1,USER_EVENTS);
+    }
+    delete userEventRecord;
+    fclose(USER_EVENTS);
+  }
+
+  pthread_mutex_unlock(&user_model_lock);
+
+  std::sort(currentUserEventRecords.begin(), currentUserEventRecords.end(), by_more_than_1_field);
+
+  return currentUserEventRecords;
 }
 
 void UserModel::push_user_terms()
