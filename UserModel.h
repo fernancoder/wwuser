@@ -17,14 +17,14 @@ struct UserTermRecord
    char user_id[256];
    char entry_key[256];
    char entry_title[256];
-   char last_update[20];
+   char last_update[21];
 };
 
 struct UserEventRecord
 {
    char user_id[256];
    char entry_title[256];
-   char creation_date[20];
+   char creation_date[21];
 };
 
 class UserModel
