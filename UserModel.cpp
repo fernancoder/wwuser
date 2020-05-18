@@ -290,7 +290,7 @@ bool UserModel::send_notification(char *user_id, char *update_date, char *entry_
 }
 
 
-bool by_more_than_1_field( UserEventRecord *a, UserEventRecord *b )
+bool user_events_sorter( UserEventRecord *a, UserEventRecord *b )
 {
   return a->creation_date < b->creation_date;
 }
@@ -326,7 +326,7 @@ vector<UserEventRecord *> UserModel::list_user_events(string user_id)
 
   pthread_mutex_unlock(&user_model_lock);
 
-  std::sort(currentUserEventRecords.begin(), currentUserEventRecords.end(), by_more_than_1_field);
+  //std::sort(currentUserEventRecords.begin(), currentUserEventRecords.end(), user_events_sorter);
 
   return currentUserEventRecords;
 }
