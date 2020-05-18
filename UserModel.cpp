@@ -210,7 +210,8 @@ string UserModel::notify_changes()
               update_date[20] = '\0';
               printf("[%s]%s -> %s (%s)", (*it)->user_id, (*it)->entry_title, update_date, (*it)->last_update);
 
-              if ( strcmp(update_date,(*it)->last_update) > 0 )
+              if ( strcmp(update_date,(*it)->last_update) > 0 ) //FORZAR
+              //if ( strcmp(update_date,(*it)->last_update) > 0 )
               {
                 //printf("Send change notification for %s to %s\n", (*it)->entry_title, (*it)->user_id);
                 printf(" ENVIADO");
@@ -232,7 +233,7 @@ string UserModel::notify_changes()
                   strcpy(userEventRecord.entry_title, (*it)->entry_title);
                   strcpy(userEventRecord.creation_date, update_date);
 
-                  fwrite(&userEventRecord, sizeof(UserTermRecord),1,USER_EVENTS);
+                  fwrite(&userEventRecord, sizeof(UserEventRecord),1,USER_EVENTS);
                 }
               }
               printf("\n");
