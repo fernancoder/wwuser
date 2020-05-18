@@ -293,7 +293,8 @@ bool UserModel::send_notification(char *user_id, char *update_date, char *entry_
 
 bool user_events_sorter( UserEventRecord *a, UserEventRecord *b )
 {
-  return a->creation_date < b->creation_date;
+  printf("%s < %s\n", a->creation_date, b->creation_date);
+  return strcmp(a->creation_date, b->creation_date) < 0;
 }
 
 
